@@ -321,6 +321,24 @@
             font-size: 9px; font-weight: 700;
             letter-spacing: 1.5px; text-transform: uppercase;
         }
+        .hack-img-wrap { position: relative; overflow: hidden; height: 110px; }
+        .hack-img-wrap img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.4s ease;
+            display: block;
+        }
+        .hack-img-wrap:hover img { filter: grayscale(0%); }
+        .hack-img-placeholder {
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #1a1a1a, #444);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Space Mono', monospace; font-size: 9px;
+            color: #888; letter-spacing: 1px;
+            filter: grayscale(100%);
+            transition: filter 0.4s ease;
+        }
+        .hack-img-wrap:hover .hack-img-placeholder { filter: grayscale(0%); }
         .hack-spot-body { padding: 10px; }
         .hack-name { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; margin-bottom: 3px; }
         .hack-meta { font-family: 'Space Mono', monospace; font-size: 8.5px; color: var(--muted); margin-bottom: 7px; }
@@ -335,6 +353,15 @@
             text-decoration: none; text-transform: uppercase;
         }
         .hack-cta:hover { background: var(--red); }
+
+        /* Stacked spotlight boxes */
+        .spotlight-box {
+            border: 1px solid #ddd;
+            padding: 9px 10px;
+            margin-bottom: 6px;
+            background: #fafafa;
+        }
+        .spotlight-box:last-child { margin-bottom: 0; }
 
         /* Devfolio news box */
         .df-box { border: 1px solid var(--ink); }
@@ -626,11 +653,40 @@
     <!-- RIGHT: Spotlights + Devfolio news -->
     <div class="col-r">
 
-        <!-- Compact spotlights -->
-        <div class="sec-label">Spotlights</div>
+        <!-- 1. HACKATHON SPOTLIGHT (top, with B&W image) -->
+        <div class="hack-spot">
+            <div class="hack-spot-hdr">🏆 Hackathon Spotlight</div>
+            <div class="hack-img-wrap">
+                <!-- Replace src with real hackathon banner image -->
+                <div class="hack-img-placeholder">[ HACKATHON BANNER IMAGE ]</div>
+            </div>
+            <div class="hack-spot-body">
+                <div class="hack-name">Base Batches #003</div>
+                <div class="hack-meta">Now Open · 8 Weeks · Remote + SF · 15 Teams Selected</div>
+                <div class="hack-desc">Base's elite accelerator is back for a third cohort. Three tracks — Startup, Student, and Robotics — with direct access to Coinbase ecosystem capital, top mentors, and global exposure.</div>
+                <div class="hack-tags">
+                    <span class="hack-tag">Startup</span>
+                    <span class="hack-tag">Student</span>
+                    <span class="hack-tag">Robotics</span>
+                    <span class="hack-tag">Onchain</span>
+                </div>
+                <a href="https://devfolio.co" class="hack-cta" target="_blank">Apply on Devfolio →</a>
+            </div>
+        </div>
 
-        <div class="spotlight-strip">
-            <div style="font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;">Hacker Spotlight</div>
+        <!-- 2. SUBSCRIBE -->
+        <div class="sub-box">
+            <h3>The Devfolio Weekly</h3>
+            <p>Builder news, hackathon alpha, ecosystem signals — every Friday.</p>
+            <input type="email" placeholder="your@email.com">
+            <button class="sub-btn">Subscribe Free →</button>
+        </div>
+
+        <!-- 3. SPOTLIGHTS — stacked small boxes -->
+        <div class="sec-label" style="margin-top:14px;">Spotlights</div>
+
+        <div class="spotlight-box">
+            <div style="font-family:'Space Mono',monospace;font-size:7.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Hacker Spotlight</div>
             <div class="spotlight-hacker">
                 <div class="hacker-avatar">👤</div>
                 <div class="hacker-info">
@@ -640,44 +696,19 @@
             </div>
         </div>
 
-        <div class="spotlight-strip">
-            <div style="font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;">Stat of the Week</div>
+        <div class="spotlight-box">
+            <div style="font-family:'Space Mono',monospace;font-size:7.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Stat of the Week</div>
             <div class="stat-strip">
                 <div class="stat-big">186</div>
-                <div class="stat-lbl">projects shipped at ETH Denver BUIDLathon 2026 — across all tracks.</div>
+                <div class="stat-lbl">projects shipped at ETH Denver BUIDLathon — across all tracks.</div>
             </div>
         </div>
 
-        <div class="spotlight-strip">
-            <div style="font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;">Builder Quote</div>
+        <div class="spotlight-box">
+            <div style="font-family:'Space Mono',monospace;font-size:7.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Builder Quote</div>
             <div class="quote-strip">
                 "Every hackathon team after OpenClaw."
                 <cite>— @devfolio · 98 ❤ · 2.5K impressions</cite>
-            </div>
-        </div>
-
-        <!-- Subscribe -->
-        <div class="sub-box">
-            <h3>The Devfolio Weekly</h3>
-            <p>Builder news, hackathon alpha, ecosystem signals — every Friday.</p>
-            <input type="email" placeholder="your@email.com">
-            <button class="sub-btn">Subscribe Free →</button>
-        </div>
-
-        <!-- Hackathon Spotlight -->
-        <div class="hack-spot">
-            <div class="hack-spot-hdr">🏆 Hackathon Spotlight</div>
-            <div class="hack-spot-body">
-                <div class="hack-name">Base Batches #003</div>
-                <div class="hack-meta">Now Open · 8 Weeks · Remote + SF · 15 Teams Selected</div>
-                <div class="hack-desc">Base's elite accelerator is back for a third cohort, with sharper focus than ever. Three tracks — Startup, Student, and Robotics — with direct access to Coinbase ecosystem capital, top mentors, and global exposure.</div>
-                <div class="hack-tags">
-                    <span class="hack-tag">Startup</span>
-                    <span class="hack-tag">Student</span>
-                    <span class="hack-tag">Robotics</span>
-                    <span class="hack-tag">Onchain</span>
-                </div>
-                <a href="https://devfolio.co" class="hack-cta" target="_blank">Apply on Devfolio →</a>
             </div>
         </div>
 
