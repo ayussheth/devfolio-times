@@ -4,1045 +4,881 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Devfolio Times</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --ink:    #0a0a0a;
+            --light:  #f4f2ed;
+            --rule:   #ccc;
+            --muted:  #6b6b6b;
+            --accent: #1a1a1a;
+            --red:    #b5192d;
+        }
 
         body {
-            font-family: 'Times New Roman', serif;
-            background: #f8f8f8;
-            color: #000;
-            line-height: 1.4;
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: var(--light);
+            color: var(--ink);
+            font-size: 15px;
+            line-height: 1.55;
         }
 
-        /* ── PRICE TICKER ── */
+        /* ─── PRICE TICKER ─── */
         .price-ticker {
-            background: #000;
-            color: #fff;
-            padding: 7px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
+            background: var(--ink);
+            color: #e0e0e0;
+            padding: 5px 0;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
             white-space: nowrap;
             overflow: hidden;
-            border-bottom: 1px solid #333;
         }
-        .price-ticker-content {
-            display: inline-block;
-            animation: scroll-left 80s linear infinite;
+        .price-ticker-inner {
+            display: inline-flex;
+            animation: ticker 90s linear infinite;
         }
-        .ticker-item { margin: 0 30px; }
-        .ticker-item .sym { font-weight: bold; color: #fff; }
-        .ticker-item .val { color: #bbb; margin-left: 4px; }
-        .ticker-item .up  { color: #00ff88; margin-left: 4px; }
-        .ticker-item .dn  { color: #ff4444; margin-left: 4px; }
+        .t-item { margin: 0 28px; display: inline-flex; gap: 5px; align-items: center; }
+        .t-sym  { font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+        .t-val  { color: #bbb; }
+        .t-up   { color: #4caf7d; }
+        .t-dn   { color: #e05555; }
+        .t-divider { color: #333; }
+        @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-        @keyframes scroll-left {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+        /* ─── WRAPPER ─── */
+        .paper { max-width: 1160px; margin: 0 auto; background: #fff; }
 
-        /* ── NEWSPAPER WRAPPER ── */
-        .newspaper {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: #fff;
-            min-height: 100vh;
-        }
+        /* ─── HEADER ─── */
+        .hdr { padding: 14px 32px 0; border-bottom: 3px double var(--ink); }
 
-        /* ── HEADER ── */
-        .header {
-            padding: 12px 25px 8px;
-            border-bottom: 3px solid #000;
-        }
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-        .last-updated {
+        .hdr-top {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--ink);
+            margin-bottom: 10px;
+            font-family: 'Space Mono', monospace;
             font-size: 10px;
-            color: #666;
-            font-weight: normal;
-            font-family: 'Courier New', monospace;
+            color: var(--muted);
         }
-        .masthead {
-            text-align: center;
-            margin-bottom: 6px;
-        }
+        .hdr-top strong { color: var(--ink); }
+
+        .masthead { text-align: center; padding: 6px 0 4px; }
         .masthead h1 {
-            font-size: 3.2rem;
-            font-weight: bold;
-            letter-spacing: 3px;
-        }
-
-        /* Subtle quote under masthead */
-        .masthead-quote {
-            font-size: 11px;
-            color: #888;
-            font-style: italic;
-            text-align: center;
-            margin: 4px 0 10px;
-            letter-spacing: 0.5px;
-        }
-
-        .date-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 6px 0;
-            border-top: 1px solid #ccc;
-            border-bottom: 1px solid #ccc;
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        /* ── BREAKING NEWS ── */
-        .breaking-news {
-            background: #cc0000;
-            color: #fff;
-            padding: 7px;
-            text-align: center;
-            font-weight: bold;
-            text-transform: uppercase;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.6rem, 5.5vw, 4rem);
+            font-weight: 900;
             letter-spacing: 1px;
-            font-size: 11px;
-        }
-
-        /* ── MAIN 3-COL GRID ── */
-        .main-content {
-            display: grid;
-            grid-template-columns: 250px 1fr 280px;
-            gap: 0;
-            padding: 0;
-        }
-
-        /* ── LEFT COLUMN — Web/Twitter News ── */
-        .left-column {
-            border-right: 2px solid #000;
-            padding: 15px;
-        }
-
-        /* ── CENTER COLUMN ── */
-        .center-column {
-            padding: 15px 20px;
-            border-right: 2px solid #000;
-        }
-
-        /* ── RIGHT COLUMN — Devfolio News ── */
-        .right-column {
-            padding: 15px;
-        }
-
-        /* ── SECTION HEADERS ── */
-        .section-header {
-            background: #000;
-            color: #fff;
-            padding: 5px 8px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-
-        /* ── NEWS BRIEF ITEMS (left col) ── */
-        .brief-item {
-            margin-bottom: 13px;
-            padding-bottom: 11px;
-            border-bottom: 1px solid #eee;
-        }
-        .brief-item:last-child { border-bottom: none; }
-        .brief-headline {
-            font-weight: bold;
-            font-size: 11px;
-            line-height: 1.2;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-        .brief-tag {
-            display: inline-block;
-            font-size: 8px;
-            font-family: 'Courier New', monospace;
-            padding: 1px 5px;
-            border: 1px solid #ccc;
-            color: #666;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-        .brief-tag.ai   { border-color: #000; color: #000; }
-        .brief-tag.web3 { border-color: #666; color: #666; }
-        .brief-text {
-            font-size: 10.5px;
-            line-height: 1.35;
-            text-align: justify;
-            color: #222;
-        }
-
-        /* ── MAIN STORY ── */
-        .edition-tag {
-            background: #d32f2f;
-            color: #fff;
-            padding: 3px 10px;
-            display: inline-block;
-            font-size: 10px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-        .main-headline {
-            font-size: 2rem;
-            font-weight: bold;
-            line-height: 1.1;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            text-align: center;
-        }
-        .byline {
-            font-size: 10px;
-            color: #666;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-align: center;
-        }
-        .main-text {
-            font-size: 13.5px;
-            line-height: 1.5;
-            text-align: justify;
-            margin-bottom: 13px;
-            text-indent: 15px;
-        }
-        .subheading {
-            font-size: 15px;
-            font-weight: bold;
-            margin: 15px 0 8px;
-            text-transform: uppercase;
-            border-bottom: 1px solid #000;
-            padding-bottom: 3px;
-        }
-
-        /* ── LIVE STATUS BOX ── */
-        .live-box {
-            background: #0a0a0f;
-            border: 2px solid #00ff88;
-            padding: 12px;
-            margin: 12px 0;
-        }
-        .live-box-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 9px;
-            font-family: 'Courier New', monospace;
-            color: #00ff88;
-            font-weight: bold;
-        }
-        .live-box-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5px;
-            font-size: 9px;
-            color: #ccc;
-            font-family: 'Courier New', monospace;
-        }
-        .live-box-grid span { color: #00ff88; }
-
-        /* ── HACKER SPOTLIGHT + MINI BOXES ── */
-        .mini-boxes {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        .mini-box {
-            border: 1px solid #000;
-            padding: 8px;
-            text-align: center;
-            background: #fafafa;
-        }
-        .mini-box-title {
-            font-size: 8px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 4px;
-            margin-bottom: 6px;
-            color: #333;
-        }
-        .hacker-photo {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: #ddd;
-            margin: 0 auto 5px;
-            overflow: hidden;
-            border: 2px solid #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-        .hacker-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .mini-box-text {
-            font-size: 8.5px;
-            line-height: 1.3;
-            color: #333;
-        }
-        .mini-box-name {
-            font-size: 9px;
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-        .mini-stat-val {
-            font-size: 1.4rem;
-            font-weight: bold;
             line-height: 1;
-            margin-bottom: 3px;
-        }
-        .mini-stat-label {
-            font-size: 7px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        /* ── DEVFOLIO NEWS BOX (neon) ── */
-        .devfolio-news {
-            border: 2px solid #000;
-            background: #fff;
+        .masthead-rule {
+            display: flex; align-items: center; gap: 12px;
+            margin: 6px 0 4px;
         }
-        .devfolio-news-header {
-            background: #000;
-            color: #fff;
-            padding: 6px 10px;
-            font-size: 11px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .devfolio-news-header .live-dot {
-            width: 6px; height: 6px;
-            background: #00ff88;
-            border-radius: 50%;
-            display: inline-block;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-        .devfolio-news-body { padding: 10px; }
-
-        .devfolio-subsection {
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        .devfolio-subsection:last-child { border-bottom: none; margin-bottom: 0; }
-        .devfolio-sub-title {
+        .masthead-rule hr { flex: 1; border: none; border-top: 1px solid var(--ink); }
+        .masthead-tagline {
+            font-family: 'Space Mono', monospace;
             font-size: 9px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #000;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .devfolio-sub-title::before {
-            content: '';
-            width: 12px; height: 2px;
-            background: #000;
-            display: inline-block;
-        }
-        .devfolio-item {
-            font-size: 10px;
-            line-height: 1.35;
-            margin-bottom: 6px;
-            padding-left: 8px;
-            border-left: 2px solid #eee;
-            color: #222;
-        }
-        .devfolio-item:last-child { margin-bottom: 0; }
-        .devfolio-item strong { font-size: 9.5px; }
-
-        /* ── SUBSCRIBE ── */
-        .subscribe-box {
-            border: 2px solid #000;
-            padding: 12px;
-            text-align: center;
-            margin-bottom: 10px;
-            background: #fafafa;
-        }
-        .subscribe-box h3 {
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 6px;
-        }
-        .subscribe-box p {
-            font-size: 9px;
-            color: #666;
-            margin-bottom: 8px;
-            font-style: italic;
-        }
-        .subscribe-box input {
-            width: 100%;
-            padding: 5px;
-            border: 1px solid #ccc;
-            font-size: 10px;
-            margin-bottom: 6px;
-        }
-        .subscribe-btn {
-            background: #000;
-            color: #fff;
-            border: none;
-            padding: 7px 18px;
-            font-weight: bold;
-            font-size: 10px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        /* ── METRICS BOX ── */
-        .metrics-box {
-            border: 2px solid #000;
-            padding: 10px;
-            margin-bottom: 10px;
-            background: #fafafa;
-        }
-        .metrics-box h3 {
-            font-size: 11px;
-            font-weight: bold;
-            text-align: center;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-        .metric-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 10.5px;
-            margin-bottom: 5px;
-            border-bottom: 1px dotted #ddd;
-            padding-bottom: 4px;
-        }
-        .metric-row:last-child { border-bottom: none; margin-bottom: 0; }
-
-        /* ── FULL-WIDTH: BUILDERS TIME ── */
-        .builders-section {
-            border-top: 3px solid #000;
-            background: #f8f8f8;
-            padding: 20px 25px;
-        }
-        .builders-header {
-            text-align: center;
-            font-size: 1.6rem;
-            font-weight: bold;
-            text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            white-space: nowrap;
         }
-        .builders-subheader {
-            text-align: center;
-            font-size: 11px;
-            color: #666;
+
+        .masthead-quote {
             font-style: italic;
-            margin-bottom: 18px;
+            font-size: 11.5px;
+            color: var(--muted);
+            text-align: center;
+            padding: 3px 0 8px;
+            letter-spacing: 0.2px;
         }
-        .builders-grid {
+
+        .hdr-bottom {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 6px 0;
+            border-top: 1px solid var(--ink);
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+        }
+        .updated-tag {
+            background: var(--ink); color: #fff;
+            padding: 2px 8px; font-size: 9px; font-weight: 700; letter-spacing: 1px;
+        }
+
+        /* ─── BREAKING BAR ─── */
+        .breaking {
+            background: var(--red); color: #fff;
+            display: flex; align-items: center; gap: 0;
+            font-family: 'Space Mono', monospace; font-size: 10px;
+        }
+        .breaking-label {
+            background: #fff; color: var(--red);
+            padding: 5px 12px; font-weight: 700;
+            letter-spacing: 1px; white-space: nowrap; font-size: 9px;
+        }
+        .breaking-text { padding: 5px 14px; letter-spacing: 0.3px; font-size: 10px; }
+
+        /* ─── 3-COL GRID ─── */
+        .cols {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 12px;
+            grid-template-columns: 230px 1fr 262px;
+            border-top: 1px solid var(--rule);
         }
-        .builder-idea {
-            border: 2px solid #000;
-            padding: 10px;
-            background: #fff;
-        }
-        .builder-idea h4 {
-            font-size: 11px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-bottom: 1px solid #ccc;
+        .col-l { border-right: 1px solid var(--rule); padding: 18px 16px; }
+        .col-c { padding: 18px 22px; }
+        .col-r { border-left: 1px solid var(--rule); padding: 18px 16px; }
+
+        /* ─── SECTION LABELS ─── */
+        .sec-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px; font-weight: 700;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            color: var(--muted);
+            border-bottom: 2px solid var(--ink);
             padding-bottom: 4px;
-            margin-bottom: 6px;
+            margin-bottom: 14px;
         }
-        .builder-idea p {
-            font-size: 9.5px;
-            line-height: 1.4;
+        .sec-label.red { border-color: var(--red); color: var(--red); }
+
+        /* ─── BRIEFS ─── */
+        .brief { margin-bottom: 14px; padding-bottom: 13px; border-bottom: 1px solid #e8e8e8; }
+        .brief:last-of-type { border-bottom: none; }
+        .brief-cat {
+            font-family: 'Space Mono', monospace;
+            font-size: 8px; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            padding: 1px 5px; margin-bottom: 4px; display: inline-block;
+        }
+        .brief-cat.ai   { background: var(--ink); color: #fff; }
+        .brief-cat.web3 { border: 1px solid var(--ink); color: var(--ink); }
+        .brief-hed {
+            font-family: 'Playfair Display', serif;
+            font-size: 13px; font-weight: 700; line-height: 1.2;
+            margin-bottom: 5px;
+        }
+        .brief-body { font-size: 11px; color: #333; line-height: 1.4; text-align: justify; }
+        .brief-src { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 3px; }
+
+        /* ─── WEEK IN NUMBERS ─── */
+        .numbers { border: 1px solid var(--ink); margin-top: 16px; }
+        .numbers-hdr {
+            background: var(--ink); color: #fff;
+            font-family: 'Space Mono', monospace;
+            font-size: 9px; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            padding: 5px 10px;
+        }
+        .number-row {
+            display: flex; justify-content: space-between; align-items: baseline;
+            padding: 5px 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 11px;
+        }
+        .number-row:last-child { border-bottom: none; }
+        .number-row strong { font-family: 'Space Mono', monospace; font-size: 13px; }
+
+        /* ─── MAIN STORY ─── */
+        .edition-flag {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            color: var(--red);
+            border-bottom: 2px solid var(--red);
+            padding-bottom: 3px;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+        .main-hed {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.55rem, 2.5vw, 2rem);
+            font-weight: 900; line-height: 1.08;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .main-deck {
+            font-family: 'Source Serif 4', serif;
+            font-size: 14px; font-weight: 300; font-style: italic;
+            text-align: center; color: #444;
+            line-height: 1.4; margin-bottom: 10px;
+        }
+        .byline-row {
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+            padding: 6px 0; margin-bottom: 12px;
+            border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+        }
+        .byline-name {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+        }
+        .byline-date { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); }
+
+        .story-body { font-size: 14px; line-height: 1.58; text-align: justify; color: #111; }
+        .story-body p { margin-bottom: 11px; }
+        .story-body p:first-child::first-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em; font-weight: 900;
+            float: left; line-height: 0.8;
+            margin: 6px 6px 0 0;
+            color: var(--ink);
         }
 
-        /* ── FULL-WIDTH: FROM DEVFOLIO (Slack) ── */
-        .from-devfolio {
-            border-top: 3px solid #000;
-            padding: 20px 25px;
-            background: #fff;
+        .story-sub {
+            font-family: 'Playfair Display', serif;
+            font-size: 15px; font-weight: 700; font-style: italic;
+            margin: 15px 0 8px;
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 4px;
         }
-        .from-devfolio-header {
+
+        /* Pull quote */
+        .pull-quote {
+            border-top: 3px solid var(--ink);
+            border-bottom: 1px solid var(--rule);
+            padding: 12px 16px;
+            margin: 16px 0;
             text-align: center;
-            font-size: 1.3rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        }
+        .pull-quote blockquote {
+            font-family: 'Playfair Display', serif;
+            font-size: 15px; font-style: italic; font-weight: 600;
+            line-height: 1.35; color: var(--ink);
+        }
+        .pull-quote cite {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px; color: var(--muted);
+            display: block; margin-top: 5px;
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+
+        /* Live status */
+        .live-box {
+            background: #0a0a0f; border: 1px solid #2a2a2a;
+            padding: 11px 13px; margin: 14px 0;
+            font-family: 'Space Mono', monospace;
+        }
+        .live-box-hdr {
+            display: flex; justify-content: space-between;
+            font-size: 9px; color: #5dba80; font-weight: 700;
+            letter-spacing: 1px; margin-bottom: 8px;
+        }
+        .live-dot { display: inline-block; width: 6px; height: 6px; background: #5dba80; border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+        .live-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 9px; color: #888; }
+        .live-grid span { color: #5dba80; }
+
+        /* ─── RIGHT COLUMN ─── */
+
+        /* Mini spotlight cards */
+        .mini-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+        .mini-card {
+            border: 1px solid var(--ink);
+            padding: 8px 7px; text-align: center; background: #fafafa;
+        }
+        .mini-card-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 7.5px; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--muted);
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 4px; margin-bottom: 6px;
+        }
+        .hacker-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: #e8e8e8; border: 2px solid var(--ink);
+            margin: 0 auto 5px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; overflow: hidden;
+        }
+        .hacker-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .mini-name { font-family: 'Playfair Display', serif; font-size: 10px; font-weight: 700; margin-bottom: 2px; }
+        .mini-text { font-size: 8.5px; line-height: 1.3; color: #444; }
+        .stat-big { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; line-height: 1; margin-bottom: 2px; }
+        .stat-lbl { font-family: 'Space Mono', monospace; font-size: 7px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+
+        /* Subscribe */
+        .sub-box { border: 1px solid var(--ink); padding: 12px; margin-bottom: 12px; text-align: center; }
+        .sub-box h3 { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+        .sub-box p { font-size: 9.5px; color: var(--muted); margin-bottom: 9px; line-height: 1.4; font-style: italic; }
+        .sub-box input { width: 100%; border: 1px solid #ccc; padding: 6px 8px; font-size: 10px; margin-bottom: 6px; font-family: inherit; }
+        .sub-btn {
+            display: block; width: 100%;
+            background: var(--ink); color: #fff;
+            border: none; padding: 8px;
+            font-family: 'Space Mono', monospace;
+            font-size: 9px; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer;
+        }
+        .sub-btn:hover { background: var(--red); }
+
+        /* Hackathon spotlight */
+        .hack-spot { border: 1px solid var(--ink); margin-bottom: 12px; }
+        .hack-spot-hdr {
+            background: var(--ink); color: #fff;
+            padding: 5px 10px;
+            font-family: 'Space Mono', monospace;
+            font-size: 9px; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+        }
+        .hack-spot-body { padding: 10px; }
+        .hack-name { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+        .hack-meta { font-family: 'Space Mono', monospace; font-size: 8.5px; color: var(--muted); margin-bottom: 7px; }
+        .hack-desc { font-size: 10.5px; line-height: 1.4; color: #333; margin-bottom: 8px; }
+        .hack-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+        .hack-tag { font-family: 'Space Mono', monospace; font-size: 7.5px; border: 1px solid #ccc; padding: 2px 5px; color: var(--muted); }
+        .hack-cta {
+            display: block; text-align: center;
+            background: var(--ink); color: #fff;
+            padding: 7px; font-family: 'Space Mono', monospace;
+            font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+            text-decoration: none; text-transform: uppercase;
+        }
+        .hack-cta:hover { background: var(--red); }
+
+        /* Devfolio news box */
+        .df-box { border: 1px solid var(--ink); }
+        .df-box-hdr {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--ink); color: #fff;
+            padding: 6px 10px;
+            font-family: 'Space Mono', monospace;
+            font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+        }
+        .df-body { padding: 12px; }
+        .df-sub {
+            font-family: 'Space Mono', monospace;
+            font-size: 8px; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            color: var(--muted); margin-bottom: 6px; margin-top: 10px;
+        }
+        .df-sub:first-child { margin-top: 0; }
+        .df-sub::before { content: '— '; }
+        .df-item { font-size: 10px; line-height: 1.35; margin-bottom: 6px; padding-left: 8px; border-left: 2px solid #eee; color: #222; }
+        .df-item:last-child { margin-bottom: 0; }
+        .df-item strong { font-size: 9.5px; display: block; margin-bottom: 1px; }
+        .df-eng { font-family: 'Space Mono', monospace; font-size: 8px; color: var(--muted); }
+
+        /* ─── BUILDERS TIME ─── */
+        .builders { border-top: 3px double var(--ink); padding: 22px 32px; background: #fafafa; }
+        .builders-hdr {
+            display: flex; align-items: center; gap: 16px;
             margin-bottom: 4px;
         }
-        .from-devfolio-sub {
-            text-align: center;
-            font-size: 10px;
-            color: #888;
-            font-style: italic;
-            margin-bottom: 18px;
+        .builders-hdr h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem; font-weight: 900;
+            letter-spacing: 0.5px; white-space: nowrap;
         }
-        .slack-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
+        .builders-hdr hr { flex: 1; border: none; border-top: 1px solid var(--rule); }
+        .builders-sub { font-size: 11px; font-style: italic; color: var(--muted); margin-bottom: 18px; }
+        .ideas { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+        .idea {
+            background: #fff; border: 1px solid #ddd;
+            padding: 12px 13px;
+            border-top: 3px solid var(--ink);
         }
-        .slack-channel {
-            border: 1px solid #ddd;
-            padding: 12px;
-            background: #fafafa;
+        .idea h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 12.5px; font-weight: 700;
+            margin-bottom: 6px; line-height: 1.2;
         }
-        .slack-channel-name {
-            font-size: 10px;
-            font-weight: bold;
-            font-family: 'Courier New', monospace;
-            color: #000;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
-        }
-        .slack-item {
-            font-size: 9.5px;
-            line-height: 1.35;
-            margin-bottom: 7px;
-            padding-bottom: 7px;
-            border-bottom: 1px dotted #eee;
-            color: #333;
-        }
-        .slack-item:last-child { border-bottom: none; margin-bottom: 0; }
-        .slack-item a {
-            color: #000;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        .slack-item .slack-meta {
-            font-size: 8px;
-            color: #999;
-            margin-top: 2px;
-        }
+        .idea p { font-size: 10px; line-height: 1.45; color: #333; }
 
-        /* ── FOOTER ── */
+        /* ─── FROM DEVFOLIO ─── */
+        .from-df { border-top: 3px double var(--ink); padding: 22px 32px; }
+        .from-df-hdr { display: flex; align-items: center; gap: 16px; margin-bottom: 4px; }
+        .from-df-hdr h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; white-space: nowrap; }
+        .from-df-hdr hr { flex: 1; border: none; border-top: 1px solid var(--rule); }
+        .from-df-sub { font-size: 11px; font-style: italic; color: var(--muted); margin-bottom: 18px; }
+        .channels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+        .channel { border: 1px solid #ddd; background: #fafafa; padding: 12px; }
+        .ch-name {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px; font-weight: 700; color: var(--ink);
+            border-bottom: 1px solid #ddd; padding-bottom: 6px; margin-bottom: 9px;
+        }
+        .ch-item { font-size: 9.5px; line-height: 1.35; margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px dotted #e0e0e0; color: #333; }
+        .ch-item:last-child { border-bottom: none; margin-bottom: 0; }
+        .ch-item a { color: var(--ink); font-weight: 600; text-decoration: none; }
+        .ch-item a:hover { text-decoration: underline; }
+        .ch-meta { font-family: 'Space Mono', monospace; font-size: 8px; color: #999; margin-top: 1px; }
+
+        /* ─── FOOTER ─── */
         footer {
-            background: #000;
-            color: #666;
-            text-align: center;
-            padding: 15px;
-            font-size: 10px;
-            font-family: 'Courier New', monospace;
+            background: var(--ink); color: #888;
+            text-align: center; padding: 12px 20px;
+            font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1px;
+            border-top: 1px solid #333;
         }
 
-        /* ── RESPONSIVE ── */
-        @media (max-width: 900px) {
-            .main-content { grid-template-columns: 1fr; }
-            .left-column, .center-column, .right-column { border: none; }
-            .slack-grid { grid-template-columns: repeat(2, 1fr); }
-            .masthead h1 { font-size: 2rem; }
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 920px) {
+            .cols { grid-template-columns: 1fr; }
+            .col-l, .col-r { border: none; border-top: 1px solid var(--rule); }
+            .channels { grid-template-columns: repeat(2,1fr); }
+            .mini-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════ -->
-<!-- PRICE TICKER                                        -->
-<!-- ═══════════════════════════════════════════════════ -->
+<!-- ═══════ PRICE TICKER ═══════ -->
 <div class="price-ticker">
-    <div class="price-ticker-content">
+    <div class="price-ticker-inner">
         <!-- Crypto -->
-        <span class="ticker-item"><span class="sym">BTC</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">ETH</span><span class="val">$[PRICE]</span><span class="dn">▼ [-X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">SOL</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
-        <!-- AI Stocks -->
-        <span class="ticker-item"><span class="sym">NVDA</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">MSFT</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">GOOGL</span><span class="val">$[PRICE]</span><span class="dn">▼ [-X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">META</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">AMZN</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">AAPL</span><span class="val">$[PRICE]</span><span class="dn">▼ [-X.X%]</span></span>
-        <!-- Repeat for seamless loop -->
-        <span class="ticker-item"><span class="sym">BTC</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">ETH</span><span class="val">$[PRICE]</span><span class="dn">▼ [-X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">SOL</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">NVDA</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">MSFT</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">GOOGL</span><span class="val">$[PRICE]</span><span class="dn">▼ [-X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">META</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">AMZN</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
-        <span class="ticker-item"><span class="sym">AAPL</span><span class="val">$[PRICE]</span><span class="dn">▼ [-X.X%]</span></span>
+        <span class="t-item"><span class="t-sym">BTC</span><span class="t-val">$66,740</span><span class="t-dn">▼ 2.30%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">ETH</span><span class="t-val">$1,982</span><span class="t-dn">▼ 3.92%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">SOL</span><span class="t-val">$84.83</span><span class="t-dn">▼ 3.04%</span></span>
+        <span class="t-divider">·</span>
+        <!-- AI Stocks (market hours) -->
+        <span class="t-item"><span class="t-sym">NVDA</span><span class="t-val">$864.20</span><span class="t-dn">▼ 1.42%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">MSFT</span><span class="t-val">$374.80</span><span class="t-up">▲ 0.38%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">GOOGL</span><span class="t-val">$166.50</span><span class="t-dn">▼ 0.92%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">META</span><span class="t-val">$572.10</span><span class="t-up">▲ 0.71%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">AMZN</span><span class="t-val">$197.60</span><span class="t-up">▲ 0.54%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">AAPL</span><span class="t-val">$218.30</span><span class="t-dn">▼ 0.18%</span></span>
+        <!-- repeat for loop -->
+        <span class="t-divider">&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;</span>
+        <span class="t-item"><span class="t-sym">BTC</span><span class="t-val">$66,740</span><span class="t-dn">▼ 2.30%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">ETH</span><span class="t-val">$1,982</span><span class="t-dn">▼ 3.92%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">SOL</span><span class="t-val">$84.83</span><span class="t-dn">▼ 3.04%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">NVDA</span><span class="t-val">$864.20</span><span class="t-dn">▼ 1.42%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">MSFT</span><span class="t-val">$374.80</span><span class="t-up">▲ 0.38%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">GOOGL</span><span class="t-val">$166.50</span><span class="t-dn">▼ 0.92%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">META</span><span class="t-val">$572.10</span><span class="t-up">▲ 0.71%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">AMZN</span><span class="t-val">$197.60</span><span class="t-up">▲ 0.54%</span></span>
+        <span class="t-divider">·</span>
+        <span class="t-item"><span class="t-sym">AAPL</span><span class="t-val">$218.30</span><span class="t-dn">▼ 0.18%</span></span>
     </div>
 </div>
 
-<div class="newspaper">
+<div class="paper">
 
-    <!-- ═══════════════════════════════════════════════ -->
-    <!-- HEADER                                          -->
-    <!-- ═══════════════════════════════════════════════ -->
-    <div class="header">
-        <div class="header-top">
-            <div>
-                <strong>ISSUE #[XX]</strong>
-                <span style="margin-left: 20px; font-weight: normal; color: #666;">ARCHIVES</span>
-            </div>
-            <div><strong>[CITY], [DAY], [DATE]</strong></div>
-            <div class="last-updated">Last updated: [X]h ago</div>
+<!-- ═══════ HEADER ═══════ -->
+<div class="hdr">
+    <div class="hdr-top">
+        <div><strong>Issue #01</strong> &nbsp;·&nbsp; Vol. I</div>
+        <div>Bangalore &amp; Delhi, Friday, February 28, 2026</div>
+        <div><span class="updated-tag">Last updated 2h ago</span></div>
+    </div>
+
+    <div class="masthead">
+        <h1>The Devfolio Times</h1>
+    </div>
+
+    <div class="masthead-rule">
+        <hr>
+        <span class="masthead-tagline">Weekly Builder Intelligence by Devfolio</span>
+        <hr>
+    </div>
+
+    <div class="masthead-quote">
+        "Coding agents basically didn't work before December. Now they do." — Andrej Karpathy, Feb 25, 2026
+    </div>
+
+    <div class="hdr-bottom">
+        <div>The Devfolio Times &nbsp;·&nbsp; Issue #01 &nbsp;·&nbsp; ETH Denver Edition</div>
+        <div>Price: Free &nbsp;·&nbsp; devfolio.co</div>
+    </div>
+</div>
+
+<!-- ═══════ BREAKING ═══════ -->
+<div class="breaking">
+    <div class="breaking-label">Breaking</div>
+    <div class="breaking-text">ETH Denver BUIDLathon wraps — 750+ builders, 186 projects, 10 track winners &nbsp;·&nbsp; Vitalik drops Ethereum quantum-resistance roadmap &nbsp;·&nbsp; Base Batches #003 now live on Devfolio</div>
+</div>
+
+<!-- ═══════ 3-COL ═══════ -->
+<div class="cols">
+
+    <!-- LEFT: AI + Web3 Twitter news -->
+    <div class="col-l">
+        <div class="sec-label">Tech & Crypto Twitter</div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);margin-bottom:12px;">AI + Web3 · Curated · Spam filtered</div>
+
+        <div class="brief">
+            <span class="brief-cat ai">AI</span>
+            <div class="brief-hed">Karpathy: Coding Agents "Basically Didn't Work Before December"</div>
+            <div class="brief-body">Andrej Karpathy's viral observation — that AI coding changed not gradually but in a sudden leap last December — resonated across tech Twitter. "Not gradually and over time in the 'progress as usual' way, but specifically this last December." The tweet drew 34.5K likes and 4.38M impressions.</div>
+            <div class="brief-src">@karpathy · 34.5K ❤ · 4.38M impressions · Feb 25</div>
         </div>
 
-        <div class="masthead">
-            <h1>The Devfolio Times</h1>
-        </div>
-        <div class="masthead-quote">
-            "[Weekly quote — keep it one line, quiet, and real]" — [Name]
+        <div class="brief">
+            <span class="brief-cat ai">AI</span>
+            <div class="brief-hed">The Coming Token Demand Tsunami: Memory and Compute Rethink</div>
+            <div class="brief-body">Karpathy laid out why the coming surge in LLM token demand demands a fundamental rethink of memory and compute orchestration. "Due to chip fabrication, you get two completely distinct pools" — pointing to a major infrastructure gap that startups are now racing to fill.</div>
+            <div class="brief-src">@karpathy · 7.3K ❤ · 2.43M impressions · Feb 25</div>
         </div>
 
-        <div class="date-info">
-            <div><strong>Issue #[XX] • [Edition Name]</strong></div>
-            <div style="font-size: 10px; color: #888; font-family: 'Courier New', monospace;">Weekly Builder Intelligence by Devfolio</div>
-            <div style="font-size: 10px; color: #888;">PRICE: FREE</div>
+        <div class="brief">
+            <span class="brief-cat ai">AI</span>
+            <div class="brief-hed">Sam Altman: Non-Technical Paths Into AGI Research</div>
+            <div class="brief-body">OpenAI is actively recruiting exceptional researchers from non-traditional backgrounds — former founders especially. Altman highlighted that the best research teams need people who understand human judgment, not just code. 4.6K likes, 627K impressions.</div>
+            <div class="brief-src">@sama · 4.6K ❤ · 627K impressions · Feb 26</div>
+        </div>
+
+        <div class="brief">
+            <span class="brief-cat web3">Web3</span>
+            <div class="brief-hed">Vitalik Drops Ethereum Quantum Resistance Roadmap</div>
+            <div class="brief-body">Vitalik laid out the four quantum-vulnerable components of Ethereum — BLS signatures, KZG commitments, ECDSA EOA signatures, and ZK proofs — and a step-by-step plan to address each. The post sparked intense discussion on validator infrastructure timelines. 4.5K likes, 551K impressions.</div>
+            <div class="brief-src">@vitalikbuterin · 4.5K ❤ · 551K impressions · Feb 26</div>
+        </div>
+
+        <div class="brief">
+            <span class="brief-cat web3">Web3</span>
+            <div class="brief-hed">Vitalik: "DeFi Is Central to Ethereum's Value"</div>
+            <div class="brief-body">Vitalik made a strong case for DeFi as a core part of Ethereum's identity and mission. "Financial empowerment is a central part of what it means to have agency and freedom in our current world." 1.69K likes, 362K impressions.</div>
+            <div class="brief-src">@vitalikbuterin · 1.69K ❤ · 362K impressions · Feb 24</div>
+        </div>
+
+        <div class="brief">
+            <span class="brief-cat web3">Web3</span>
+            <div class="brief-hed">Anthropic Holds Red Lines on Autonomous Weapons, Mass Surveillance</div>
+            <div class="brief-body">Vitalik endorsed Anthropic's stance of maintaining two hard limits — no fully autonomous weapons and no mass surveillance of Americans — and said their credibility depended on not backing down under government pressure. 3.1K likes, 336K impressions.</div>
+            <div class="brief-src">@vitalikbuterin · 3.1K ❤ · 336K impressions · Feb 24</div>
+        </div>
+
+        <div class="numbers">
+            <div class="numbers-hdr">This Week In Numbers</div>
+            <div class="number-row"><span>ETH Denver Builders</span><strong>750+</strong></div>
+            <div class="number-row"><span>Projects Submitted</span><strong>186</strong></div>
+            <div class="number-row"><span>Track Winners</span><strong>10</strong></div>
+            <div class="number-row"><span>Base Batches Apps Open</span><strong>003</strong></div>
+            <div class="number-row"><span>Karpathy Tweet Impressions</span><strong>4.38M</strong></div>
         </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════ -->
-    <!-- BREAKING NEWS                                   -->
-    <!-- ═══════════════════════════════════════════════ -->
-    <div class="breaking-news">
-        [BREAKING STORY 1] • [STAT OR ANNOUNCEMENT] • [ANOTHER TOP LINE]
-    </div>
+    <!-- CENTER: Main story -->
+    <div class="col-c">
+        <div class="edition-flag">ETH Denver 2026 · Special Edition</div>
 
-    <!-- ═══════════════════════════════════════════════ -->
-    <!-- MAIN 3-COL CONTENT                              -->
-    <!-- ═══════════════════════════════════════════════ -->
-    <div class="main-content">
+        <h1 class="main-hed">
+            ETH Denver Closes Its Doors On a Builder Class That Defined a New Standard
+        </h1>
 
-        <!-- ─────────────────────────────────────── -->
-        <!-- LEFT: Web/Twitter News (AI + Web3)      -->
-        <!-- ─────────────────────────────────────── -->
-        <div class="left-column">
-            <div class="section-header">Tech & Crypto Twitter</div>
-            <div style="font-size: 8px; color: #999; font-family: 'Courier New', monospace; margin-bottom: 10px; text-align: center;">AI + Web3 · Spam filtered · Verified sources</div>
+        <p class="main-deck">
+            750 builders. 186 projects. One moment in the evolution of what hackathons can be.
+        </p>
 
-            <!-- AI News -->
-            <div class="brief-item">
-                <span class="brief-tag ai">AI</span>
-                <div class="brief-headline">[AI NEWS HEADLINE 1]</div>
-                <div class="brief-text">[2-3 sentences. What happened, why it matters. Source: @handle or publication.]</div>
-            </div>
-
-            <div class="brief-item">
-                <span class="brief-tag ai">AI</span>
-                <div class="brief-headline">[AI NEWS HEADLINE 2]</div>
-                <div class="brief-text">[2-3 sentences. What happened, why it matters. Source: @handle or publication.]</div>
-            </div>
-
-            <div class="brief-item">
-                <span class="brief-tag ai">AI</span>
-                <div class="brief-headline">[AI NEWS HEADLINE 3]</div>
-                <div class="brief-text">[2-3 sentences. What happened, why it matters. Source: @handle or publication.]</div>
-            </div>
-
-            <!-- Web3 News -->
-            <div class="brief-item">
-                <span class="brief-tag web3">WEB3</span>
-                <div class="brief-headline">[CRYPTO/WEB3 HEADLINE 1]</div>
-                <div class="brief-text">[2-3 sentences. What happened, why it matters. Source: @handle or publication.]</div>
-            </div>
-
-            <div class="brief-item">
-                <span class="brief-tag web3">WEB3</span>
-                <div class="brief-headline">[CRYPTO/WEB3 HEADLINE 2]</div>
-                <div class="brief-text">[2-3 sentences. What happened, why it matters. Source: @handle or publication.]</div>
-            </div>
-
-            <div class="brief-item">
-                <span class="brief-tag web3">WEB3</span>
-                <div class="brief-headline">[CRYPTO/WEB3 HEADLINE 3]</div>
-                <div class="brief-text">[2-3 sentences. What happened, why it matters. Source: @handle or publication.]</div>
-            </div>
-
-            <!-- Metrics -->
-            <div class="metrics-box">
-                <h3>Week in Numbers</h3>
-                <div class="metric-row"><span>Hackathons Live</span><span><strong>[X]</strong></span></div>
-                <div class="metric-row"><span>Submissions</span><span><strong>[X]</strong></span></div>
-                <div class="metric-row"><span>Hackers Online</span><span><strong>[X]</strong></span></div>
-                <div class="metric-row"><span>Total Prize Pool</span><span><strong>$[X]</strong></span></div>
-                <div class="metric-row"><span>New Projects</span><span><strong>[X]</strong></span></div>
-            </div>
+        <div class="byline-row">
+            <span class="byline-name">By Devfolio Times Intelligence</span>
+            <span class="byline-date">Denver, Col. · February 27, 2026</span>
         </div>
 
-        <!-- ─────────────────────────────────────── -->
-        <!-- CENTER: Main Story                      -->
-        <!-- ─────────────────────────────────────── -->
-        <div class="center-column">
-            <div class="edition-tag">• [EDITION TAG] •</div>
+        <div class="story-body">
+            <p>The BUIDLathon at Ethereum Denver is done. Not with a whimper, but with 186 submitted projects and 10 main track winners — and a broader signal to the industry that the hackathon format, far from being a relic of the early crypto years, is evolving into something genuinely new.</p>
 
-            <div class="main-headline">
-                [MAIN STORY HEADLINE: THE BIG THING THAT HAPPENED THIS WEEK]
+            <p>Devfolio, which powered the BUIDLathon platform, shared the final counts this week: 750+ builders, 186 projects, and winners across all major tracks. "Congrats to all the BUIDLers," the team wrote, embedding the winning thread. In the same week, a separate Devfolio tweet — "Every hackathon team after OpenClaw" — generated 98 likes and 2.5K impressions, pointing to just how deeply AI-assisted building has permeated the hackathon culture.</p>
+
+            <div class="pull-quote">
+                <blockquote>"It is hard to communicate how much programming has changed due to AI in the last 2 months."</blockquote>
+                <cite>— Andrej Karpathy · @karpathy · 34.5K likes</cite>
             </div>
 
-            <div class="byline">
-                By Devfolio Times Intelligence • [Context / Location] ([Date])
-            </div>
+            <div class="story-sub">The AI Coding Shift Nobody Saw Coming</div>
 
-            <div class="main-text">
-                [Opening paragraph — set the scene. What's the big theme this week? Why does it matter? Hook in 3-4 sentences.]
-            </div>
+            <p>The backdrop to ETH Denver was a tech Twitter moment that stopped the industry. Andrej Karpathy — former Tesla AI director, OpenAI founding member — dropped what may be the most resonant AI tweet of early 2026: that programming changed not gradually but in a specific, identifiable leap in December 2025, when coding agents stopped being toys and became genuine tools. 34.5K likes. 4.38M impressions.</p>
 
-            <div class="main-text">
-                [Second paragraph — the details. Who did what, what was announced, what shipped. Numbers and names here.]
-            </div>
+            <p>The timing matters for builders. Hackathon projects built at ETH Denver this year were qualitatively different from those of two years prior — with teams of two doing work that once required five, and with AI agents serving as actual collaborators rather than glorified autocomplete.</p>
 
-            <div class="subheading">[Subheading 1]</div>
-
-            <div class="main-text">
-                [Third paragraph — deeper dive into one specific angle of the story.]
-            </div>
-
-            <div class="main-text">
-                [Fourth paragraph — quotes, reactions, implications.]
-            </div>
-
-            <!-- Live status box -->
             <div class="live-box">
-                <div class="live-box-header">
-                    <span>[STATUS BOX TITLE] — THIS WEEK</span>
-                    <span>● LIVE</span>
+                <div class="live-box-hdr">
+                    <span>ETH DENVER — FINAL STATS</span>
+                    <span><span class="live-dot"></span> CONFIRMED</span>
                 </div>
-                <div class="live-box-grid">
-                    <div>[Item 1]: <span>LIVE ✓</span></div>
-                    <div>[Item 2]: <span>LIVE ✓</span></div>
-                    <div>[Item 3]: <span>LIVE ✓</span></div>
-                    <div>[Item 4]: <span>LIVE ✓</span></div>
-                </div>
-            </div>
-
-            <div class="subheading">[Subheading 2]</div>
-
-            <div class="main-text">
-                [Fifth paragraph — second major angle. Different event, person, or trend.]
-            </div>
-
-            <div class="main-text">
-                [Sixth paragraph — stats, context, comparisons to previous editions.]
-            </div>
-
-            <div class="subheading">[Subheading 3]</div>
-
-            <div class="main-text">
-                [Seventh paragraph — implications, what builders should watch.]
-            </div>
-
-            <div class="main-text">
-                [Closing — wrap with numbers, what it means for the ecosystem.]
-            </div>
-        </div>
-
-        <!-- ─────────────────────────────────────── -->
-        <!-- RIGHT: Hacker Spotlights + Devfolio News-->
-        <!-- ─────────────────────────────────────── -->
-        <div class="right-column">
-
-            <!-- 3 mini boxes above Devfolio News -->
-            <div class="mini-boxes">
-
-                <!-- HACKER SPOTLIGHT -->
-                <div class="mini-box">
-                    <div class="mini-box-title">Hacker Spotlight</div>
-                    <div class="hacker-photo">👤</div>
-                    <!-- Replace emoji with: <img src="[PHOTO_URL]" alt="[Name]"> -->
-                    <div class="mini-box-name">[Name]</div>
-                    <div class="mini-box-text">[1-2 liner — what they built, where they're from, what makes them stand out.]</div>
-                </div>
-
-                <!-- STAT / FACT BOX -->
-                <div class="mini-box">
-                    <div class="mini-box-title">Stat of the Week</div>
-                    <div class="mini-stat-val">[X]</div>
-                    <div class="mini-stat-label">[What the number means]</div>
-                    <div class="mini-box-text" style="margin-top: 5px;">[One sentence context.]</div>
-                </div>
-
-                <!-- QUOTE / SHOUTOUT -->
-                <div class="mini-box">
-                    <div class="mini-box-title">Builder Quote</div>
-                    <div class="mini-box-text" style="font-style: italic; margin-bottom: 4px;">"[Short quote from a builder/hacker this week.]"</div>
-                    <div class="mini-box-name" style="font-size: 8px; color: #666;">— [Name, @handle]</div>
-                </div>
-
-            </div>
-
-            <!-- SUBSCRIBE TO DEVFOLIO WEEKLY -->
-            <div class="subscribe-box">
-                <h3>The Devfolio Weekly</h3>
-                <p>Builder news, hackathon alpha, and ecosystem signals — every week.</p>
-                <input type="email" placeholder="your@email.com">
-                <button class="subscribe-btn">Subscribe Free →</button>
-            </div>
-
-            <!-- HACKATHON SPOTLIGHT -->
-            <div style="border: 2px solid #000; margin-bottom: 12px; background: #fafafa;">
-                <div style="background: #000; color: #fff; padding: 5px 10px; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
-                    🏆 Hackathon Spotlight
-                </div>
-                <div style="padding: 10px;">
-                    <div style="font-size: 13px; font-weight: bold; margin-bottom: 5px;">[HACKATHON NAME]</div>
-                    <div style="font-size: 9px; color: #666; font-family: 'Courier New', monospace; margin-bottom: 8px;">[DATES] · [LOCATION/ONLINE] · $[X]K PRIZES</div>
-                    <div style="font-size: 10.5px; line-height: 1.4; color: #222; margin-bottom: 8px;">
-                        [2-3 sentences about what makes this hackathon special this week — theme, who's sponsoring, notable tracks or judges.]
-                    </div>
-                    <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;">
-                        <span style="font-size: 8px; border: 1px solid #ccc; padding: 2px 6px; font-family: 'Courier New', monospace;">[TRACK 1]</span>
-                        <span style="font-size: 8px; border: 1px solid #ccc; padding: 2px 6px; font-family: 'Courier New', monospace;">[TRACK 2]</span>
-                        <span style="font-size: 8px; border: 1px solid #ccc; padding: 2px 6px; font-family: 'Courier New', monospace;">[TRACK 3]</span>
-                    </div>
-                    <a href="#" style="display: block; text-align: center; background: #000; color: #fff; padding: 7px; font-size: 10px; font-weight: bold; letter-spacing: 1px; text-decoration: none; text-transform: uppercase;">Apply on Devfolio →</a>
+                <div class="live-grid">
+                    <div>Builders: <span>750+</span></div>
+                    <div>Projects: <span>186</span></div>
+                    <div>Track Winners: <span>10</span></div>
+                    <div>Platform: <span>Devfolio ✓</span></div>
                 </div>
             </div>
 
-            <!-- DEVFOLIO NEWS (neon box) -->
-            <div class="devfolio-news">
-                <div class="devfolio-news-header">
-                    Devfolio News
-                    <span class="live-dot"></span>
-                </div>
-                <div class="devfolio-news-body">
+            <div class="story-sub">Vitalik's Quantum Bombshell</div>
 
-                    <!-- Hot Hackathons -->
-                    <div class="devfolio-subsection">
-                        <div class="devfolio-sub-title">Hot Hackathons</div>
-                        <div class="devfolio-item">
-                            <strong>[HACKATHON NAME]</strong> — [Dates] · $[X]K prize · [Theme/sponsor]. [1 liner why it's hot.]
-                        </div>
-                        <div class="devfolio-item">
-                            <strong>[HACKATHON NAME]</strong> — [Dates] · $[X]K prize · [Theme/sponsor]. [1 liner why it's hot.]
-                        </div>
-                        <div class="devfolio-item">
-                            <strong>[HACKATHON NAME]</strong> — [Dates] · $[X]K prize · [Theme/sponsor]. [1 liner why it's hot.]
-                        </div>
-                    </div>
+            <p>Just as ETH Denver wrapped, Vitalik Buterin dropped a detailed post on Ethereum's quantum resistance roadmap — the kind of long-form technical thinking that Ethereum's core community lives for. The post identified four vulnerable components and proposed a sequential remediation plan. For hackathon builders: this opens a new category of infrastructure work that will need tooling, bridges, and developer-facing abstractions.</p>
 
-                    <!-- Tweets by Devfolio -->
-                    <div class="devfolio-subsection">
-                        <div class="devfolio-sub-title">Devfolio Tweets</div>
-                        <div class="devfolio-item">
-                            🔵 "[Tweet content from @devfolio this week]" — <strong>[X] ❤️ · [X]K views</strong>
-                        </div>
-                        <div class="devfolio-item">
-                            🔵 "[Tweet content from @devfolio this week]" — <strong>[X] ❤️ · [X]K views</strong>
-                        </div>
-                        <div class="devfolio-item">
-                            🔵 "[Tweet content from @devfolio this week]" — <strong>[X] ❤️ · [X]K views</strong>
-                        </div>
-                    </div>
+            <p>Vitalik also weighed in on DeFi's centrality to Ethereum, making a direct philosophical case against de-emphasizing finance: "Financial empowerment is a central part of what it means to have agency and freedom." For the Devfolio ecosystem — which bridges web3 and web2 builders — the signal is clear: DeFi tooling remains one of the highest-value areas to build in.</p>
 
-                    <!-- Initiatives -->
-                    <div class="devfolio-subsection">
-                        <div class="devfolio-sub-title">Initiatives</div>
-                        <div class="devfolio-item">
-                            <strong>[Initiative Name]</strong> — [1-2 sentence description. What it is, who it's for, when it starts.]
-                        </div>
-                        <div class="devfolio-item">
-                            <strong>[Initiative Name]</strong> — [1-2 sentence description. What it is, who it's for, when it starts.]
-                        </div>
-                    </div>
+            <div class="story-sub">What's Next: Base Batches #003</div>
 
-                    <!-- In-house Updates -->
-                    <div class="devfolio-subsection">
-                        <div class="devfolio-sub-title">In-House Updates</div>
-                        <div class="devfolio-item">
-                            <strong>[Update 1]:</strong> [1 sentence — team, product, or company update.]
-                        </div>
-                        <div class="devfolio-item">
-                            <strong>[Update 2]:</strong> [1 sentence — team, product, or company update.]
-                        </div>
-                        <div class="devfolio-item">
-                            <strong>[Update 3]:</strong> [1 sentence — team, product, or company update.]
-                        </div>
-                    </div>
+            <p>With ETH Denver behind it, the builder ecosystem's attention shifts to Base Batches #003, now live on Devfolio. The programme has three distinct tracks — Startup, Student, and Robotics — and is offering 15 elite teams direct access to Coinbase ecosystem capital and mentorship. Applications are open. The deadline pressure is real.</p>
 
-                    <!-- Devfolio Newsletter -->
-                    <div class="devfolio-subsection">
-                        <div class="devfolio-sub-title">Newsletter Picks</div>
-                        <div class="devfolio-item">
-                            <strong>[Newsletter story 1]</strong> — [1 sentence teaser from the Devfolio newsletter this week.]
-                        </div>
-                        <div class="devfolio-item">
-                            <strong>[Newsletter story 2]</strong> — [1 sentence teaser from the Devfolio newsletter this week.]
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
+            <p>Meanwhile, the Devcon Community Roundtable kicked off its inquiry into the India story for Ethereum — a question that feels especially timely given Devfolio's own position as the dominant hackathon platform for India's builder community. What is India's Ethereum story? We'll have more on this as the roundtable progresses.</p>
         </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════ -->
-    <!-- BUILDERS TIME (full width)                      -->
-    <!-- ═══════════════════════════════════════════════ -->
-    <div class="builders-section">
-        <div class="builders-header">Builders Time</div>
-        <div class="builders-subheader">Ideas arrived after deep thinking on what's moving on tech twitter this week — pick one and ship it</div>
+    <!-- RIGHT: Spotlights + Devfolio news -->
+    <div class="col-r">
 
-        <div class="builders-grid">
-            <div class="builder-idea">
-                <h4>1. [Idea Title]</h4>
-                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
+        <!-- 3 mini spotlight cards -->
+        <div class="sec-label">Spotlights</div>
+        <div class="mini-grid">
+            <div class="mini-card">
+                <div class="mini-card-label">Hacker Spotlight</div>
+                <div class="hacker-avatar">👤</div>
+                <div class="mini-name">[Name]</div>
+                <div class="mini-text">[What they built, where they're from, what makes them stand out.]</div>
             </div>
-            <div class="builder-idea">
-                <h4>2. [Idea Title]</h4>
-                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
+            <div class="mini-card">
+                <div class="mini-card-label">Stat of Week</div>
+                <div class="stat-big">186</div>
+                <div class="stat-lbl">Projects at ETH Denver</div>
+                <div class="mini-text" style="margin-top:5px;">Submitted across all tracks at BUIDLathon 2026.</div>
             </div>
-            <div class="builder-idea">
-                <h4>3. [Idea Title]</h4>
-                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
-            </div>
-            <div class="builder-idea">
-                <h4>4. [Idea Title]</h4>
-                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
-            </div>
-            <div class="builder-idea">
-                <h4>5. [Idea Title]</h4>
-                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
-            </div>
-            <div class="builder-idea">
-                <h4>6. [Idea Title]</h4>
-                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
-            </div>
-            <div class="builder-idea">
-                <h4>7. [Idea Title]</h4>
-                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
-            </div>
-            <div class="builder-idea">
-                <h4>8. [Idea Title]</h4>
-                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
-            </div>
-            <div class="builder-idea">
-                <h4>9. [Idea Title]</h4>
-                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
-            </div>
-            <div class="builder-idea">
-                <h4>10. [Idea Title]</h4>
-                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
-            </div>
-            <div class="builder-idea">
-                <h4>11. [Idea Title]</h4>
-                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
-            </div>
-            <div class="builder-idea">
-                <h4>12. [Idea Title]</h4>
-                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
+            <div class="mini-card">
+                <div class="mini-card-label">Builder Quote</div>
+                <div class="mini-text" style="font-style:italic;margin-bottom:4px;">"Every hackathon team after OpenClaw."</div>
+                <div class="mini-name" style="font-size:8px;color:var(--muted);">— @devfolio · 98 ❤</div>
             </div>
         </div>
-    </div>
 
-    <!-- ═══════════════════════════════════════════════ -->
-    <!-- FROM DEVFOLIO — Slack Recommendations           -->
-    <!-- ═══════════════════════════════════════════════ -->
-    <div class="from-devfolio">
-        <div class="from-devfolio-header">From Devfolio</div>
-        <div class="from-devfolio-sub">Connected to Devfolio Slack — good stuff shared inside the team this week</div>
-
-        <div class="slack-grid">
-
-            <!-- #reading -->
-            <div class="slack-channel">
-                <div class="slack-channel-name"># reading</div>
-                <div class="slack-item">
-                    <a href="#">[Article/Book Title]</a>
-                    <div class="slack-meta">via [Name] · [Domain]</div>
-                </div>
-                <div class="slack-item">
-                    <a href="#">[Article/Book Title]</a>
-                    <div class="slack-meta">via [Name] · [Domain]</div>
-                </div>
-                <div class="slack-item">
-                    <a href="#">[Article/Book Title]</a>
-                    <div class="slack-meta">via [Name] · [Domain]</div>
-                </div>
-            </div>
-
-            <!-- #random -->
-            <div class="slack-channel">
-                <div class="slack-channel-name"># random</div>
-                <div class="slack-item">
-                    <a href="#">[Link title or description]</a>
-                    <div class="slack-meta">via [Name]</div>
-                </div>
-                <div class="slack-item">
-                    <a href="#">[Link title or description]</a>
-                    <div class="slack-meta">via [Name]</div>
-                </div>
-                <div class="slack-item">
-                    <a href="#">[Link title or description]</a>
-                    <div class="slack-meta">via [Name]</div>
-                </div>
-            </div>
-
-            <!-- #music -->
-            <div class="slack-channel">
-                <div class="slack-channel-name"># music</div>
-                <div class="slack-item">
-                    <a href="#">[Song / Album / Playlist]</a>
-                    <div class="slack-meta">via [Name] · [Artist]</div>
-                </div>
-                <div class="slack-item">
-                    <a href="#">[Song / Album / Playlist]</a>
-                    <div class="slack-meta">via [Name] · [Artist]</div>
-                </div>
-                <div class="slack-item">
-                    <a href="#">[Song / Album / Playlist]</a>
-                    <div class="slack-meta">via [Name] · [Artist]</div>
-                </div>
-            </div>
-
-            <!-- #watercooler -->
-            <div class="slack-channel">
-                <div class="slack-channel-name"># watercooler</div>
-                <div class="slack-item">
-                    <a href="#">[Meme / Tweet / Fun link]</a>
-                    <div class="slack-meta">via [Name]</div>
-                </div>
-                <div class="slack-item">
-                    <a href="#">[Meme / Tweet / Fun link]</a>
-                    <div class="slack-meta">via [Name]</div>
-                </div>
-                <div class="slack-item">
-                    <a href="#">[Meme / Tweet / Fun link]</a>
-                    <div class="slack-meta">via [Name]</div>
-                </div>
-            </div>
-
+        <!-- Subscribe -->
+        <div class="sub-box">
+            <h3>The Devfolio Weekly</h3>
+            <p>Builder news, hackathon alpha, ecosystem signals — every Friday.</p>
+            <input type="email" placeholder="your@email.com">
+            <button class="sub-btn">Subscribe Free →</button>
         </div>
+
+        <!-- Hackathon Spotlight -->
+        <div class="hack-spot">
+            <div class="hack-spot-hdr">🏆 Hackathon Spotlight</div>
+            <div class="hack-spot-body">
+                <div class="hack-name">Base Batches #003</div>
+                <div class="hack-meta">Now Open · 8 Weeks · Remote + SF · 15 Teams Selected</div>
+                <div class="hack-desc">Base's elite accelerator is back for a third cohort, with sharper focus than ever. Three tracks — Startup, Student, and Robotics — with direct access to Coinbase ecosystem capital, top mentors, and global exposure.</div>
+                <div class="hack-tags">
+                    <span class="hack-tag">Startup</span>
+                    <span class="hack-tag">Student</span>
+                    <span class="hack-tag">Robotics</span>
+                    <span class="hack-tag">Onchain</span>
+                </div>
+                <a href="https://devfolio.co" class="hack-cta" target="_blank">Apply on Devfolio →</a>
+            </div>
+        </div>
+
+        <!-- Devfolio News -->
+        <div class="df-box">
+            <div class="df-box-hdr">
+                Devfolio News
+                <span class="live-dot"></span>
+            </div>
+            <div class="df-body">
+
+                <div class="df-sub">Hot Hackathons</div>
+                <div class="df-item">
+                    <strong>Base Batches #003</strong>
+                    Live on Devfolio. Startup, Student, Robotics tracks. 15 elite teams. Direct access to Base ecosystem capital.
+                </div>
+                <div class="df-item">
+                    <strong>Arbitrum NYC Founder House</strong>
+                    IRL builder experience starting March 6. Early-stage teams only. 3 days left to apply as of Feb 25.
+                </div>
+                <div class="df-item">
+                    <strong>Devcon Community Roundtable</strong>
+                    India's Ethereum story: what it is, where it's going. First roundtable now live.
+                </div>
+
+                <div class="df-sub">Devfolio Tweets</div>
+                <div class="df-item">
+                    <strong>ETH Denver BUIDLathon Wrap</strong>
+                    "750+ builders, 186 projects, 10 main track winners. Congrats to all BUIDLers."
+                    <span class="df-eng">53 ❤ · 2.2K impressions · Feb 23</span>
+                </div>
+                <div class="df-item">
+                    <strong>Every hackathon team after OpenClaw</strong>
+                    A meme that landed. 98 ❤ · 2.5K impressions · Feb 23
+                    <span class="df-eng">98 ❤ · 2.5K impressions · Feb 23</span>
+                </div>
+                <div class="df-item">
+                    <strong>Base Batches #003 is Live</strong>
+                    "Startup. Student. Robotics. Different goals, same ambition: build on Base."
+                    <span class="df-eng">30 ❤ · 3.4K impressions · Feb 20</span>
+                </div>
+
+                <div class="df-sub">Initiatives</div>
+                <div class="df-item">
+                    <strong>Devcon Roundtable — India × Ethereum</strong>
+                    First community roundtable exploring India's role in the Ethereum ecosystem. Open for community input.
+                </div>
+                <div class="df-item">
+                    <strong>BasedIndia — Base Batches Push</strong>
+                    8 weeks, best mentors, direct Base ecosystem access. IndiaBase community amplifying the call.
+                </div>
+
+                <div class="df-sub">In-House Updates</div>
+                <div class="df-item">
+                    <strong>BUIDLathon 2026 Complete:</strong> Devfolio powered the full ETH Denver hackathon stack. 186 projects submitted.
+                </div>
+                <div class="df-item">
+                    <strong>Base Batches #003 Integration:</strong> Third cohort of Base's accelerator goes live exclusively on Devfolio platform.
+                </div>
+
+            </div>
+        </div>
+
     </div>
-
-    <footer>
-        The Devfolio Times · Issue #[XX] · [Date] · Built with ☕ by the Devfolio team
-    </footer>
-
 </div>
+
+<!-- ═══════ BUILDERS TIME ═══════ -->
+<div class="builders">
+    <div class="builders-hdr">
+        <hr>
+        <h2>Builders Time</h2>
+        <hr>
+    </div>
+    <p class="builders-sub">Ideas arrived after deep thinking on this week's tech twitter — pick one, ship it at the next hackathon</p>
+
+    <div class="ideas">
+        <div class="idea">
+            <h4>1. AI Coding Agent Benchmarking Tool</h4>
+            <p>Karpathy's tweet revealed a December inflection point. Build a benchmarking tool that tracks AI coding agent quality over time — real tasks, real codebases, real metrics. Leaderboard for Cursor, Windsurf, Claude Code, Devin.</p>
+        </div>
+        <div class="idea">
+            <h4>2. Quantum-Safe Ethereum Wallet</h4>
+            <p>Vitalik dropped the quantum roadmap this week. Build the first user-facing wallet that supports post-quantum signature schemes, ahead of the forced migration. First-mover in a category that will become mandatory.</p>
+        </div>
+        <div class="idea">
+            <h4>3. Hackathon Project Discovery Engine</h4>
+            <p>186 projects were built at ETH Denver. Most will disappear. Build a discovery layer — curated, searchable, tagged by tech stack and problem domain — that keeps great hackathon projects alive and fundable.</p>
+        </div>
+        <div class="idea">
+            <h4>4. AI Agent Hackathon Teammate</h4>
+            <p>Every hackathon team is using OpenClaw anyway. Build a structured AI teammate — with a defined role (PM, designer, backend) — that integrates into hackathon workflow and tracks deliverables.</p>
+        </div>
+        <div class="idea">
+            <h4>5. DeFi Onboarding Layer for Web2 Devs</h4>
+            <p>Vitalik made the case for DeFi as core Ethereum value. But the barrier for web2 devs is still massive. Build an abstraction layer — one SDK, clear docs, no seed phrase UX — specifically for web2 engineers entering DeFi.</p>
+        </div>
+        <div class="idea">
+            <h4>6. Compute Futures Market</h4>
+            <p>Karpathy flagged the memory+compute rethink for LLMs. Build a futures market for GPU compute — buy and sell future access to inference capacity. Infrastructure for the coming token demand tsunami.</p>
+        </div>
+        <div class="idea">
+            <h4>7. India × Ethereum Devrel Kit</h4>
+            <p>The Devcon roundtable is asking what India's Ethereum story is. Build the devrel kit — tutorials in Hindi/Tamil/Telugu, local use cases, regional event playbooks — that makes the answer concrete.</p>
+        </div>
+        <div class="idea">
+            <h4>8. Hackathon Team Matching with AI</h4>
+            <p>Solo hackers are the biggest dropout risk. Build an AI-powered team-matching system that uses skill gap analysis and project interest to form optimal teams before the hackathon even starts.</p>
+        </div>
+        <div class="idea">
+            <h4>9. Post-Quantum ZK Proof Library</h4>
+            <p>Vitalik called out ZK proofs (KZG, Groth16) as quantum-vulnerable. Build an open-source library that wraps ZK circuits with quantum-safe alternatives — immediately useful for any ZK project on Ethereum.</p>
+        </div>
+        <div class="idea">
+            <h4>10. Accelerator Application Optimizer</h4>
+            <p>Base Batches got hundreds of applicants for 15 spots. Build an AI tool that helps founders write sharper accelerator applications — trained on successful Y Combinator, Base, and Arbitrum Batches narratives.</p>
+        </div>
+        <div class="idea">
+            <h4>11. Non-Technical Contributor Platform</h4>
+            <p>Sam Altman called out research recruiting as an underrated non-technical path into AI. Build a platform that maps non-technical roles (recruiting, ops, marketing, policy) to top AI labs and web3 projects.</p>
+        </div>
+        <div class="idea">
+            <h4>12. Robotics × Blockchain Proof-of-Work</h4>
+            <p>Base Batches has a Robotics track. Build the primitive: a smart contract that accepts proof-of-physical-work from robots — delivery confirmation, manufacturing QC, real-world task completion — verified onchain.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════ FROM DEVFOLIO ═══════ -->
+<div class="from-df">
+    <div class="from-df-hdr">
+        <hr>
+        <h2>From Devfolio</h2>
+        <hr>
+    </div>
+    <p class="from-df-sub">Connected to Devfolio Slack — good stuff shared inside the team this week · Integration coming soon</p>
+
+    <div class="channels">
+        <div class="channel">
+            <div class="ch-name"># reading</div>
+            <div class="ch-item">
+                <a href="#">[Article or book title]</a>
+                <div class="ch-meta">via [Name] · [domain.com]</div>
+            </div>
+            <div class="ch-item">
+                <a href="#">[Article or book title]</a>
+                <div class="ch-meta">via [Name] · [domain.com]</div>
+            </div>
+            <div class="ch-item">
+                <a href="#">[Article or book title]</a>
+                <div class="ch-meta">via [Name] · [domain.com]</div>
+            </div>
+        </div>
+        <div class="channel">
+            <div class="ch-name"># random</div>
+            <div class="ch-item">
+                <a href="#">[Link title or description]</a>
+                <div class="ch-meta">via [Name]</div>
+            </div>
+            <div class="ch-item">
+                <a href="#">[Link title or description]</a>
+                <div class="ch-meta">via [Name]</div>
+            </div>
+            <div class="ch-item">
+                <a href="#">[Link title or description]</a>
+                <div class="ch-meta">via [Name]</div>
+            </div>
+        </div>
+        <div class="channel">
+            <div class="ch-name"># music</div>
+            <div class="ch-item">
+                <a href="#">[Song / Album / Playlist]</a>
+                <div class="ch-meta">via [Name] · [Artist]</div>
+            </div>
+            <div class="ch-item">
+                <a href="#">[Song / Album / Playlist]</a>
+                <div class="ch-meta">via [Name] · [Artist]</div>
+            </div>
+            <div class="ch-item">
+                <a href="#">[Song / Album / Playlist]</a>
+                <div class="ch-meta">via [Name] · [Artist]</div>
+            </div>
+        </div>
+        <div class="channel">
+            <div class="ch-name"># watercooler</div>
+            <div class="ch-item">
+                <a href="#">[Meme / Tweet / Fun link]</a>
+                <div class="ch-meta">via [Name]</div>
+            </div>
+            <div class="ch-item">
+                <a href="#">[Meme / Tweet / Fun link]</a>
+                <div class="ch-meta">via [Name]</div>
+            </div>
+            <div class="ch-item">
+                <a href="#">[Meme / Tweet / Fun link]</a>
+                <div class="ch-meta">via [Name]</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    The Devfolio Times &nbsp;·&nbsp; Issue #01 &nbsp;·&nbsp; February 28, 2026 &nbsp;·&nbsp; Built by Devfolio &nbsp;·&nbsp; devfolio.co
+</footer>
+
+</div><!-- /paper -->
 
 </body>
 </html>
