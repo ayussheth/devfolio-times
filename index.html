@@ -3,818 +3,1026 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Devfolio Times - Weekly Builder Intelligence</title>
+    <title>The Devfolio Times</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
             font-family: 'Times New Roman', serif;
             background: #f8f8f8;
             color: #000;
             line-height: 1.4;
         }
-        
-        .ticker {
+
+        /* ── PRICE TICKER ── */
+        .price-ticker {
             background: #000;
             color: #fff;
-            padding: 8px;
+            padding: 7px 0;
+            font-family: 'Courier New', monospace;
             font-size: 12px;
-            text-align: center;
-            font-weight: bold;
             white-space: nowrap;
             overflow: hidden;
+            border-bottom: 1px solid #333;
         }
-        
-        .ticker-content {
-            animation: scroll-left 60s linear infinite;
+        .price-ticker-content {
             display: inline-block;
+            animation: scroll-left 80s linear infinite;
         }
-        
+        .ticker-item { margin: 0 30px; }
+        .ticker-item .sym { font-weight: bold; color: #fff; }
+        .ticker-item .val { color: #bbb; margin-left: 4px; }
+        .ticker-item .up  { color: #00ff88; margin-left: 4px; }
+        .ticker-item .dn  { color: #ff4444; margin-left: 4px; }
+
         @keyframes scroll-left {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
-        
+
+        /* ── NEWSPAPER WRAPPER ── */
         .newspaper {
             max-width: 1200px;
             margin: 0 auto;
             background: #fff;
             min-height: 100vh;
         }
-        
+
+        /* ── HEADER ── */
         .header {
-            padding: 15px 25px;
+            padding: 12px 25px 8px;
             border-bottom: 3px solid #000;
         }
-        
         .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
             font-size: 11px;
             font-weight: bold;
         }
-        
+        .last-updated {
+            font-size: 10px;
+            color: #666;
+            font-weight: normal;
+            font-family: 'Courier New', monospace;
+        }
         .masthead {
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 6px;
         }
-        
         .masthead h1 {
             font-size: 3.2rem;
             font-weight: bold;
             letter-spacing: 3px;
-            margin-bottom: 5px;
         }
-        
-        .masthead-sub {
-            font-size: 12px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+
+        /* Subtle quote under masthead */
+        .masthead-quote {
+            font-size: 11px;
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            margin: 4px 0 10px;
+            letter-spacing: 0.5px;
         }
-        
+
         .date-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
+            padding: 6px 0;
             border-top: 1px solid #ccc;
             border-bottom: 1px solid #ccc;
             font-size: 11px;
             font-weight: bold;
         }
-        
-        .quote-box {
-            border: 2px solid #000;
-            padding: 12px;
-            margin: 15px 0;
-            font-style: italic;
+
+        /* ── BREAKING NEWS ── */
+        .breaking-news {
+            background: #cc0000;
+            color: #fff;
+            padding: 7px;
             text-align: center;
-            background: #f9f9f9;
-            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 11px;
         }
-        
+
+        /* ── MAIN 3-COL GRID ── */
         .main-content {
             display: grid;
             grid-template-columns: 250px 1fr 280px;
-            gap: 20px;
-            padding: 20px 25px;
+            gap: 0;
+            padding: 0;
         }
-        
+
+        /* ── LEFT COLUMN — Web/Twitter News ── */
         .left-column {
             border-right: 2px solid #000;
-            padding-right: 15px;
+            padding: 15px;
         }
-        
+
+        /* ── CENTER COLUMN ── */
+        .center-column {
+            padding: 15px 20px;
+            border-right: 2px solid #000;
+        }
+
+        /* ── RIGHT COLUMN — Devfolio News ── */
         .right-column {
-            border-left: 2px solid #000;
-            padding-left: 15px;
+            padding: 15px;
         }
-        
+
+        /* ── SECTION HEADERS ── */
         .section-header {
             background: #000;
             color: #fff;
-            padding: 6px;
+            padding: 5px 8px;
             text-align: center;
             font-weight: bold;
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
-            margin-bottom: 15px;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
         }
-        
+
+        /* ── NEWS BRIEF ITEMS (left col) ── */
         .brief-item {
-            margin-bottom: 15px;
-            padding-bottom: 12px;
+            margin-bottom: 13px;
+            padding-bottom: 11px;
             border-bottom: 1px solid #eee;
         }
-        
-        .brief-item:last-child {
-            border-bottom: none;
-        }
-        
+        .brief-item:last-child { border-bottom: none; }
         .brief-headline {
             font-weight: bold;
-            font-size: 12px;
+            font-size: 11px;
             line-height: 1.2;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             text-transform: uppercase;
         }
-        
-        .brief-price {
-            font-size: 16px;
-            font-weight: bold;
-            color: #000;
-            margin-bottom: 6px;
+        .brief-tag {
+            display: inline-block;
+            font-size: 8px;
+            font-family: 'Courier New', monospace;
+            padding: 1px 5px;
+            border: 1px solid #ccc;
+            color: #666;
+            margin-bottom: 4px;
+            text-transform: uppercase;
         }
-        
+        .brief-tag.ai   { border-color: #000; color: #000; }
+        .brief-tag.web3 { border-color: #666; color: #666; }
         .brief-text {
-            font-size: 11px;
-            line-height: 1.3;
+            font-size: 10.5px;
+            line-height: 1.35;
             text-align: justify;
+            color: #222;
         }
-        
-        .main-story {
-            padding: 0 10px;
-        }
-        
-        .contested-banner {
+
+        /* ── MAIN STORY ── */
+        .edition-tag {
             background: #d32f2f;
             color: #fff;
-            padding: 4px 12px;
+            padding: 3px 10px;
             display: inline-block;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
             text-transform: uppercase;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
-        
         .main-headline {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: bold;
             line-height: 1.1;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-transform: uppercase;
             text-align: center;
         }
-        
         .byline {
-            font-size: 11px;
+            font-size: 10px;
             color: #666;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 1px;
             text-align: center;
         }
-        
         .main-text {
-            font-size: 14px;
+            font-size: 13.5px;
             line-height: 1.5;
             text-align: justify;
-            margin-bottom: 15px;
+            margin-bottom: 13px;
             text-indent: 15px;
         }
-        
         .subheading {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
-            margin: 18px 0 10px 0;
+            margin: 15px 0 8px;
             text-transform: uppercase;
             border-bottom: 1px solid #000;
             padding-bottom: 3px;
         }
-        
-        .crypto-box {
-            border: 2px solid #000;
-            padding: 15px;
-            margin: 15px 0;
-            background: #f9f9f9;
+
+        /* ── LIVE STATUS BOX ── */
+        .live-box {
+            background: #0a0a0f;
+            border: 2px solid #00ff88;
+            padding: 12px;
+            margin: 12px 0;
         }
-        
-        .crypto-box h3 {
-            font-size: 14px;
-            margin-bottom: 12px;
-            text-align: center;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-        
-        .crypto-item {
+        .live-box-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 6px;
-            font-size: 12px;
-        }
-        
-        .crypto-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .dispatch-box {
-            background: #f9f9f9;
-            border: 2px solid #000;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        
-        .dispatch-title {
-            font-size: 1.5rem;
+            margin-bottom: 8px;
+            font-size: 9px;
+            font-family: 'Courier New', monospace;
+            color: #00ff88;
             font-weight: bold;
+        }
+        .live-box-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            font-size: 9px;
+            color: #ccc;
+            font-family: 'Courier New', monospace;
+        }
+        .live-box-grid span { color: #00ff88; }
+
+        /* ── HACKER SPOTLIGHT + MINI BOXES ── */
+        .mini-boxes {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
             margin-bottom: 12px;
         }
-        
-        .dispatch-text {
+        .mini-box {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+            background: #fafafa;
+        }
+        .mini-box-title {
+            font-size: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 4px;
+            margin-bottom: 6px;
+            color: #333;
+        }
+        .hacker-photo {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #ddd;
+            margin: 0 auto 5px;
+            overflow: hidden;
+            border: 2px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .hacker-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .mini-box-text {
+            font-size: 8.5px;
+            line-height: 1.3;
+            color: #333;
+        }
+        .mini-box-name {
+            font-size: 9px;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        .mini-stat-val {
+            font-size: 1.4rem;
+            font-weight: bold;
+            line-height: 1;
+            margin-bottom: 3px;
+        }
+        .mini-stat-label {
+            font-size: 7px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── DEVFOLIO NEWS BOX (neon) ── */
+        .devfolio-news {
+            border: 2px solid #000;
+            background: #fff;
+        }
+        .devfolio-news-header {
+            background: #000;
+            color: #fff;
+            padding: 6px 10px;
             font-size: 11px;
-            line-height: 1.4;
-            margin-bottom: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .devfolio-news-header .live-dot {
+            width: 6px; height: 6px;
+            background: #00ff88;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .devfolio-news-body { padding: 10px; }
+
+        .devfolio-subsection {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .devfolio-subsection:last-child { border-bottom: none; margin-bottom: 0; }
+        .devfolio-sub-title {
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #000;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .devfolio-sub-title::before {
+            content: '';
+            width: 12px; height: 2px;
+            background: #000;
+            display: inline-block;
+        }
+        .devfolio-item {
+            font-size: 10px;
+            line-height: 1.35;
+            margin-bottom: 6px;
+            padding-left: 8px;
+            border-left: 2px solid #eee;
+            color: #222;
+        }
+        .devfolio-item:last-child { margin-bottom: 0; }
+        .devfolio-item strong { font-size: 9.5px; }
+
+        /* ── SUBSCRIBE ── */
+        .subscribe-box {
+            border: 2px solid #000;
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 10px;
+            background: #fafafa;
+        }
+        .subscribe-box h3 {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .subscribe-box p {
+            font-size: 9px;
+            color: #666;
+            margin-bottom: 8px;
             font-style: italic;
         }
-        
+        .subscribe-box input {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            font-size: 10px;
+            margin-bottom: 6px;
+        }
         .subscribe-btn {
             background: #000;
             color: #fff;
-            padding: 10px 25px;
             border: none;
+            padding: 7px 18px;
             font-weight: bold;
+            font-size: 10px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             cursor: pointer;
-            font-size: 11px;
-            letter-spacing: 1px;
+            width: 100%;
         }
-        
-        .federal-box {
-            background: #1a1a2e;
-            color: #ffd700;
-            padding: 20px;
-            text-align: center;
-            border: 3px solid #ffd700;
-            margin-bottom: 15px;
-        }
-        
-        .federal-title {
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            letter-spacing: 2px;
-        }
-        
-        .federal-main {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 12px 0;
-        }
-        
-        .federal-sub {
-            font-size: 11px;
-            margin-bottom: 12px;
-        }
-        
-        .federal-btn {
-            border: 1px solid #ffd700;
-            padding: 6px 12px;
-            font-size: 10px;
-            display: inline-block;
-            color: #ffd700;
-            text-decoration: none;
-        }
-        
-        .spotlight-box {
-            background: #f5f5f5;
+
+        /* ── METRICS BOX ── */
+        .metrics-box {
             border: 2px solid #000;
-            padding: 12px;
-            margin: 15px 0;
-            text-align: center;
-        }
-        
-        .spotlight-icon {
-            width: 50px;
-            height: 50px;
-            background: #ddd;
-            margin: 0 auto 8px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-        
-        .spotlight-text {
-            font-size: 10px;
-            line-height: 1.3;
-        }
-        
-        .on-this-day {
-            background: #f0f0f0;
-            border: 2px solid #000;
-            padding: 12px;
-            margin: 15px 0;
-        }
-        
-        .on-this-day h3 {
-            font-size: 12px;
-            text-align: center;
+            padding: 10px;
             margin-bottom: 10px;
-            text-transform: uppercase;
-            font-weight: bold;
-            border-bottom: 1px solid #000;
-            padding-bottom: 5px;
+            background: #fafafa;
         }
-        
-        .on-this-day p {
-            font-size: 10px;
-            line-height: 1.4;
+        .metrics-box h3 {
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
             margin-bottom: 8px;
         }
-        
-        .on-this-day p:last-child {
-            margin-bottom: 0;
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10.5px;
+            margin-bottom: 5px;
+            border-bottom: 1px dotted #ddd;
+            padding-bottom: 4px;
         }
-        
+        .metric-row:last-child { border-bottom: none; margin-bottom: 0; }
+
+        /* ── FULL-WIDTH: BUILDERS TIME ── */
         .builders-section {
-            grid-column: 1 / -1;
-            margin-top: 25px;
-            padding-top: 20px;
             border-top: 3px solid #000;
             background: #f8f8f8;
-            padding: 25px;
+            padding: 20px 25px;
         }
-        
         .builders-header {
             text-align: center;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: bold;
-            margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 2px;
+            margin-bottom: 5px;
         }
-        
         .builders-subheader {
             text-align: center;
-            font-size: 12px;
+            font-size: 11px;
             color: #666;
-            margin-bottom: 20px;
             font-style: italic;
+            margin-bottom: 18px;
         }
-        
         .builders-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 12px;
         }
-        
         .builder-idea {
             border: 2px solid #000;
-            padding: 12px;
+            padding: 10px;
             background: #fff;
         }
-        
         .builder-idea h4 {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
-            margin-bottom: 8px;
-            color: #000;
             text-transform: uppercase;
             border-bottom: 1px solid #ccc;
             padding-bottom: 4px;
+            margin-bottom: 6px;
         }
-        
         .builder-idea p {
-            font-size: 10px;
+            font-size: 9.5px;
             line-height: 1.4;
-            text-align: justify;
         }
-        
-        .image-placeholder {
-            width: 100%;
-            height: 120px;
-            background: linear-gradient(135deg, #ddd, #bbb);
-            border: 1px solid #999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 10px 0;
-            font-size: 12px;
-            color: #666;
-            text-transform: uppercase;
+
+        /* ── FULL-WIDTH: FROM DEVFOLIO (Slack) ── */
+        .from-devfolio {
+            border-top: 3px solid #000;
+            padding: 20px 25px;
+            background: #fff;
         }
-        
-        .breaking-news {
-            background: #cc0000;
-            color: #fff;
-            padding: 8px;
+        .from-devfolio-header {
             text-align: center;
+            font-size: 1.3rem;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 11px;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
         }
-        
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-            .left-column, .right-column {
-                border: none;
-                padding: 0;
-            }
-            .main-headline {
-                font-size: 1.5rem;
-            }
-            .masthead h1 {
-                font-size: 2rem;
-            }
+        .from-devfolio-sub {
+            text-align: center;
+            font-size: 10px;
+            color: #888;
+            font-style: italic;
+            margin-bottom: 18px;
+        }
+        .slack-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        .slack-channel {
+            border: 1px solid #ddd;
+            padding: 12px;
+            background: #fafafa;
+        }
+        .slack-channel-name {
+            font-size: 10px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            color: #000;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .slack-item {
+            font-size: 9.5px;
+            line-height: 1.35;
+            margin-bottom: 7px;
+            padding-bottom: 7px;
+            border-bottom: 1px dotted #eee;
+            color: #333;
+        }
+        .slack-item:last-child { border-bottom: none; margin-bottom: 0; }
+        .slack-item a {
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .slack-item .slack-meta {
+            font-size: 8px;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: #000;
+            color: #666;
+            text-align: center;
+            padding: 15px;
+            font-size: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .main-content { grid-template-columns: 1fr; }
+            .left-column, .center-column, .right-column { border: none; }
+            .slack-grid { grid-template-columns: repeat(2, 1fr); }
+            .masthead h1 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
-    <div class="ticker">
-        <div class="ticker-content">
-            STRIPE x402 BRINGS AI AGENT PAYMENTS TO BASE • CONWAY RESEARCH "WEB 4.0" — THE AUTOMATON • VIRTUALS.IO REVENUE NETWORK LIVE • AGENTSCAN LAUNCHES ON BASE • JESSE BACK TO CODING DAILY • ETH DENVER: "PAY WITH STABLECOINS OR YOU'RE A FRAUD" • USDG COMING TO BASE • 0xSPLITS: AGENTS JOIN ONCHAIN TEAMS
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PRICE TICKER                                        -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="price-ticker">
+    <div class="price-ticker-content">
+        <!-- Crypto -->
+        <span class="ticker-item"><span class="sym">BTC</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">ETH</span><span class="val">$[PRICE]</span><span class="dn">▼ [-X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">SOL</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
+        <!-- AI Stocks -->
+        <span class="ticker-item"><span class="sym">NVDA</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">MSFT</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">GOOGL</span><span class="val">$[PRICE]</span><span class="dn">▼ [-X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">META</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">AMZN</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">AAPL</span><span class="val">$[PRICE]</span><span class="dn">▼ [-X.X%]</span></span>
+        <!-- Repeat for seamless loop -->
+        <span class="ticker-item"><span class="sym">BTC</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">ETH</span><span class="val">$[PRICE]</span><span class="dn">▼ [-X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">SOL</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">NVDA</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">MSFT</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">GOOGL</span><span class="val">$[PRICE]</span><span class="dn">▼ [-X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">META</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">AMZN</span><span class="val">$[PRICE]</span><span class="up">▲ [+X.X%]</span></span>
+        <span class="ticker-item"><span class="sym">AAPL</span><span class="val">$[PRICE]</span><span class="dn">▼ [-X.X%]</span></span>
+    </div>
+</div>
+
+<div class="newspaper">
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- HEADER                                          -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="header">
+        <div class="header-top">
+            <div>
+                <strong>ISSUE #[XX]</strong>
+                <span style="margin-left: 20px; font-weight: normal; color: #666;">ARCHIVES</span>
+            </div>
+            <div><strong>[CITY], [DAY], [DATE]</strong></div>
+            <div class="last-updated">Last updated: [X]h ago</div>
+        </div>
+
+        <div class="masthead">
+            <h1>The Devfolio Times</h1>
+        </div>
+        <div class="masthead-quote">
+            "[Weekly quote — keep it one line, quiet, and real]" — [Name]
+        </div>
+
+        <div class="date-info">
+            <div><strong>Issue #[XX] • [Edition Name]</strong></div>
+            <div style="font-size: 10px; color: #888; font-family: 'Courier New', monospace;">Weekly Builder Intelligence by Devfolio</div>
+            <div style="font-size: 10px; color: #888;">PRICE: FREE</div>
         </div>
     </div>
-    
-    <div class="newspaper">
-        <div class="header">
-            <div class="header-top">
-                <div>
-                    <span><strong>VOL. II</strong></span>
-                    <span style="margin-left: 20px;"><strong>ARCHIVES</strong></span>
-                </div>
-                <div>
-                    <span><strong>BANGALORE, SUNDAY, FEBRUARY 23, 2026</strong></span>
-                </div>
-                <div>
-                    <span><strong>PRICE: FREE</strong></span>
-                </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- BREAKING NEWS                                   -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="breaking-news">
+        [BREAKING STORY 1] • [STAT OR ANNOUNCEMENT] • [ANOTHER TOP LINE]
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- MAIN 3-COL CONTENT                              -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="main-content">
+
+        <!-- ─────────────────────────────────────── -->
+        <!-- LEFT: Web/Twitter News (AI + Web3)      -->
+        <!-- ─────────────────────────────────────── -->
+        <div class="left-column">
+            <div class="section-header">Tech & Crypto Twitter</div>
+            <div style="font-size: 8px; color: #999; font-family: 'Courier New', monospace; margin-bottom: 10px; text-align: center;">AI + Web3 · Spam filtered · Verified sources</div>
+
+            <!-- AI News -->
+            <div class="brief-item">
+                <span class="brief-tag ai">AI</span>
+                <div class="brief-headline">[AI NEWS HEADLINE 1]</div>
+                <div class="brief-text">[2-3 sentences. What happened, why it matters. Source: @handle or publication.]</div>
             </div>
-            
-            <div class="quote-box">
-                <em>"I am back to writing code every day and it feels incredible"</em><br>
-                <strong>— Jesse Pollak, Feb 22, 2026 (586 ❤️ · 19K impressions)</strong>
+
+            <div class="brief-item">
+                <span class="brief-tag ai">AI</span>
+                <div class="brief-headline">[AI NEWS HEADLINE 2]</div>
+                <div class="brief-text">[2-3 sentences. What happened, why it matters. Source: @handle or publication.]</div>
             </div>
-            
-            <div class="masthead">
-                <h1>The Devfolio Times</h1>
-                <div class="masthead-sub">Weekly Ecosystem Intelligence • 11:18 AM IST</div>
+
+            <div class="brief-item">
+                <span class="brief-tag ai">AI</span>
+                <div class="brief-headline">[AI NEWS HEADLINE 3]</div>
+                <div class="brief-text">[2-3 sentences. What happened, why it matters. Source: @handle or publication.]</div>
             </div>
-            
-            <div class="date-info">
-                <div>🟢 <strong>Live</strong> • <button style="border: 1px solid #000; background: #fff; padding: 2px 6px; font-size: 10px;">↻ REFRESH</button></div>
-                <div><strong>Vol. II • No. 08 • ETH Denver Edition</strong></div>
-                <div><button style="border: 1px solid #000; background: #fff; padding: 2px 6px; font-size: 10px;">⚡ GET LATEST</button></div>
+
+            <!-- Web3 News -->
+            <div class="brief-item">
+                <span class="brief-tag web3">WEB3</span>
+                <div class="brief-headline">[CRYPTO/WEB3 HEADLINE 1]</div>
+                <div class="brief-text">[2-3 sentences. What happened, why it matters. Source: @handle or publication.]</div>
+            </div>
+
+            <div class="brief-item">
+                <span class="brief-tag web3">WEB3</span>
+                <div class="brief-headline">[CRYPTO/WEB3 HEADLINE 2]</div>
+                <div class="brief-text">[2-3 sentences. What happened, why it matters. Source: @handle or publication.]</div>
+            </div>
+
+            <div class="brief-item">
+                <span class="brief-tag web3">WEB3</span>
+                <div class="brief-headline">[CRYPTO/WEB3 HEADLINE 3]</div>
+                <div class="brief-text">[2-3 sentences. What happened, why it matters. Source: @handle or publication.]</div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="metrics-box">
+                <h3>Week in Numbers</h3>
+                <div class="metric-row"><span>Hackathons Live</span><span><strong>[X]</strong></span></div>
+                <div class="metric-row"><span>Submissions</span><span><strong>[X]</strong></span></div>
+                <div class="metric-row"><span>Hackers Online</span><span><strong>[X]</strong></span></div>
+                <div class="metric-row"><span>Total Prize Pool</span><span><strong>$[X]</strong></span></div>
+                <div class="metric-row"><span>New Projects</span><span><strong>[X]</strong></span></div>
             </div>
         </div>
-        
-        <div class="breaking-news">
-            ETH DENVER WEEK: STRIPE x402 ENABLES AI AGENT USDC PAYMENTS ON BASE • CONWAY "WEB 4.0" GOES VIRAL • BASE TVL $3.73B
+
+        <!-- ─────────────────────────────────────── -->
+        <!-- CENTER: Main Story                      -->
+        <!-- ─────────────────────────────────────── -->
+        <div class="center-column">
+            <div class="edition-tag">• [EDITION TAG] •</div>
+
+            <div class="main-headline">
+                [MAIN STORY HEADLINE: THE BIG THING THAT HAPPENED THIS WEEK]
+            </div>
+
+            <div class="byline">
+                By Devfolio Times Intelligence • [Context / Location] ([Date])
+            </div>
+
+            <div class="main-text">
+                [Opening paragraph — set the scene. What's the big theme this week? Why does it matter? Hook in 3-4 sentences.]
+            </div>
+
+            <div class="main-text">
+                [Second paragraph — the details. Who did what, what was announced, what shipped. Numbers and names here.]
+            </div>
+
+            <div class="subheading">[Subheading 1]</div>
+
+            <div class="main-text">
+                [Third paragraph — deeper dive into one specific angle of the story.]
+            </div>
+
+            <div class="main-text">
+                [Fourth paragraph — quotes, reactions, implications.]
+            </div>
+
+            <!-- Live status box -->
+            <div class="live-box">
+                <div class="live-box-header">
+                    <span>[STATUS BOX TITLE] — THIS WEEK</span>
+                    <span>● LIVE</span>
+                </div>
+                <div class="live-box-grid">
+                    <div>[Item 1]: <span>LIVE ✓</span></div>
+                    <div>[Item 2]: <span>LIVE ✓</span></div>
+                    <div>[Item 3]: <span>LIVE ✓</span></div>
+                    <div>[Item 4]: <span>LIVE ✓</span></div>
+                </div>
+            </div>
+
+            <div class="subheading">[Subheading 2]</div>
+
+            <div class="main-text">
+                [Fifth paragraph — second major angle. Different event, person, or trend.]
+            </div>
+
+            <div class="main-text">
+                [Sixth paragraph — stats, context, comparisons to previous editions.]
+            </div>
+
+            <div class="subheading">[Subheading 3]</div>
+
+            <div class="main-text">
+                [Seventh paragraph — implications, what builders should watch.]
+            </div>
+
+            <div class="main-text">
+                [Closing — wrap with numbers, what it means for the ecosystem.]
+            </div>
         </div>
-        
-        <div class="main-content">
-            <div class="left-column">
-                <div class="section-header">Ecosystem Briefs</div>
-                
-                <div class="brief-item">
-                    <div class="brief-headline">STRIPE x402: AI AGENTS PAY WITH USDC ON BASE</div>
-                    <div class="brief-price">$140B Stripe</div>
-                    <div class="brief-text">Stripe introduces x402 protocol on Base, enabling direct USDC payments from AI agents. Multiple builders already shipping x402 tools — RequestTap (open-source API router) and SnapBase (screenshot-as-a-service, 0.05 USDC per call) go live this week.</div>
+
+        <!-- ─────────────────────────────────────── -->
+        <!-- RIGHT: Hacker Spotlights + Devfolio News-->
+        <!-- ─────────────────────────────────────── -->
+        <div class="right-column">
+
+            <!-- 3 mini boxes above Devfolio News -->
+            <div class="mini-boxes">
+
+                <!-- HACKER SPOTLIGHT -->
+                <div class="mini-box">
+                    <div class="mini-box-title">Hacker Spotlight</div>
+                    <div class="hacker-photo">👤</div>
+                    <!-- Replace emoji with: <img src="[PHOTO_URL]" alt="[Name]"> -->
+                    <div class="mini-box-name">[Name]</div>
+                    <div class="mini-box-text">[1-2 liner — what they built, where they're from, what makes them stand out.]</div>
                 </div>
-                
-                <div class="brief-item">
-                    <div class="brief-headline">CONWAY RESEARCH DROPS "WEB 4.0" BLOG</div>
-                    <div class="brief-price">Viral</div>
-                    <div class="brief-text">Conway Research took over the timeline with their "Web 4.0" blog, introducing The Automaton: a self-improving, sovereign AI agent. Founder @0xsigil appeared on TBPN to discuss the agentic economy, Conway's vision, and x402.</div>
+
+                <!-- STAT / FACT BOX -->
+                <div class="mini-box">
+                    <div class="mini-box-title">Stat of the Week</div>
+                    <div class="mini-stat-val">[X]</div>
+                    <div class="mini-stat-label">[What the number means]</div>
+                    <div class="mini-box-text" style="margin-top: 5px;">[One sentence context.]</div>
                 </div>
-                
-                <div class="brief-item">
-                    <div class="brief-headline">VIRTUALS.IO REVENUE NETWORK FOR AI AGENTS</div>
-                    <div class="brief-price">Live</div>
-                    <div class="brief-text">Virtuals introduced their Revenue Network allowing AI agents to negotiate terms and execute onchain. Signals a maturing agent economy where autonomous entities earn, transact, and form financial relationships independently.</div>
+
+                <!-- QUOTE / SHOUTOUT -->
+                <div class="mini-box">
+                    <div class="mini-box-title">Builder Quote</div>
+                    <div class="mini-box-text" style="font-style: italic; margin-bottom: 4px;">"[Short quote from a builder/hacker this week.]"</div>
+                    <div class="mini-box-name" style="font-size: 8px; color: #666;">— [Name, @handle]</div>
                 </div>
-                
-                <div class="brief-item">
-                    <div class="brief-headline">AGENTSCAN: FRONT PAGE FOR AI AGENTS</div>
-                    <div class="brief-price">Live on Base</div>
-                    <div class="brief-text">Zeru Finance launches AgentScan — agents register, mint behavior-based zScores, and become discoverable. First registry infrastructure for the agentic economy, creating reputation systems for autonomous agents.</div>
+
+            </div>
+
+            <!-- DEVFOLIO NEWS (neon box) -->
+            <div class="devfolio-news">
+                <div class="devfolio-news-header">
+                    Devfolio News
+                    <span class="live-dot"></span>
                 </div>
-                
-                <div class="brief-item">
-                    <div class="brief-headline">JESSE: TOKENS TIED TO REAL SUBSTANCE</div>
-                    <div class="brief-price">824 ❤️ · 57K Views</div>
-                    <div class="brief-text">Jesse explains builders need to understand the benefits of tokenizing their projects — not just hype but real utility and alignment. "It's not just about tokens for hype, but how tokens can bring real value."</div>
-                </div>
-                
-                <div class="brief-item">
-                    <div class="brief-headline">"PAY WITH STABLECOINS OR YOU'RE A FRAUD"</div>
-                    <div class="brief-price">540 ❤️ · 45K Views</div>
-                    <div class="brief-text">Base team drops hot takes at ETH Denver. USDG stablecoin integration on Base also announced this week, expanding the stablecoin ecosystem beyond USDC dominance.</div>
-                </div>
-                
-                <div class="crypto-box">
-                    <h3>Live Base Metrics (DeFiLlama)</h3>
-                    <div class="crypto-item">
-                        <span><strong>TVL</strong></span>
-                        <span><strong>$3.73B</strong> <span style="color: #d32f2f; font-size: 10px;">▼3.8%</span></span>
-                    </div>
-                    <div class="crypto-item">
-                        <span><strong>MORPHO</strong></span>
-                        <span><strong>$1.865B</strong></span>
-                    </div>
-                    <div class="crypto-item">
-                        <span><strong>AAVE V3</strong></span>
-                        <span><strong>$733M</strong></span>
-                    </div>
-                    <div class="crypto-item">
-                        <span><strong>STEAKHOUSE</strong></span>
-                        <span><strong>$627M</strong></span>
-                    </div>
-                    <div class="crypto-item">
-                        <span><strong>GAUNTLET</strong></span>
-                        <span><strong>$382M</strong></span>
-                    </div>
-                </div>
-                
-                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; margin: 10px 0; border: 1px solid #000;">
-                    <h4 style="color: #00ff88; font-size: 12px; text-align: center; margin-bottom: 10px;">TOP PROTOCOLS ON BASE</h4>
-                    <div style="display: flex; align-items: end; justify-content: space-between; height: 80px; padding: 0 5px;">
-                        <div style="text-align: center;">
-                            <div style="background: #00ff88; width: 28px; height: 100%; margin: 0 auto;"></div>
-                            <div style="color: #ccc; font-size: 7px; margin-top: 3px;">MORPHO<br>$1.87B</div>
+                <div class="devfolio-news-body">
+
+                    <!-- Hot Hackathons -->
+                    <div class="devfolio-subsection">
+                        <div class="devfolio-sub-title">Hot Hackathons</div>
+                        <div class="devfolio-item">
+                            <strong>[HACKATHON NAME]</strong> — [Dates] · $[X]K prize · [Theme/sponsor]. [1 liner why it's hot.]
                         </div>
-                        <div style="text-align: center;">
-                            <div style="background: #00ccff; width: 28px; height: 39%; margin: 0 auto;"></div>
-                            <div style="color: #ccc; font-size: 7px; margin-top: 3px;">AAVE<br>$733M</div>
+                        <div class="devfolio-item">
+                            <strong>[HACKATHON NAME]</strong> — [Dates] · $[X]K prize · [Theme/sponsor]. [1 liner why it's hot.]
                         </div>
-                        <div style="text-align: center;">
-                            <div style="background: #00ff88; width: 28px; height: 34%; margin: 0 auto;"></div>
-                            <div style="color: #ccc; font-size: 7px; margin-top: 3px;">STEAK<br>$627M</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="background: #00ccff; width: 28px; height: 20%; margin: 0 auto;"></div>
-                            <div style="color: #ccc; font-size: 7px; margin-top: 3px;">GAUNT<br>$382M</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="background: #00ff88; width: 28px; height: 10%; margin: 0 auto;"></div>
-                            <div style="color: #ccc; font-size: 7px; margin-top: 3px;">AERO<br>$192M</div>
+                        <div class="devfolio-item">
+                            <strong>[HACKATHON NAME]</strong> — [Dates] · $[X]K prize · [Theme/sponsor]. [1 liner why it's hot.]
                         </div>
                     </div>
+
+                    <!-- Tweets by Devfolio -->
+                    <div class="devfolio-subsection">
+                        <div class="devfolio-sub-title">Devfolio Tweets</div>
+                        <div class="devfolio-item">
+                            🔵 "[Tweet content from @devfolio this week]" — <strong>[X] ❤️ · [X]K views</strong>
+                        </div>
+                        <div class="devfolio-item">
+                            🔵 "[Tweet content from @devfolio this week]" — <strong>[X] ❤️ · [X]K views</strong>
+                        </div>
+                        <div class="devfolio-item">
+                            🔵 "[Tweet content from @devfolio this week]" — <strong>[X] ❤️ · [X]K views</strong>
+                        </div>
+                    </div>
+
+                    <!-- Initiatives -->
+                    <div class="devfolio-subsection">
+                        <div class="devfolio-sub-title">Initiatives</div>
+                        <div class="devfolio-item">
+                            <strong>[Initiative Name]</strong> — [1-2 sentence description. What it is, who it's for, when it starts.]
+                        </div>
+                        <div class="devfolio-item">
+                            <strong>[Initiative Name]</strong> — [1-2 sentence description. What it is, who it's for, when it starts.]
+                        </div>
+                    </div>
+
+                    <!-- In-house Updates -->
+                    <div class="devfolio-subsection">
+                        <div class="devfolio-sub-title">In-House Updates</div>
+                        <div class="devfolio-item">
+                            <strong>[Update 1]:</strong> [1 sentence — team, product, or company update.]
+                        </div>
+                        <div class="devfolio-item">
+                            <strong>[Update 2]:</strong> [1 sentence — team, product, or company update.]
+                        </div>
+                        <div class="devfolio-item">
+                            <strong>[Update 3]:</strong> [1 sentence — team, product, or company update.]
+                        </div>
+                    </div>
+
+                    <!-- Devfolio Newsletter -->
+                    <div class="devfolio-subsection">
+                        <div class="devfolio-sub-title">Newsletter Picks</div>
+                        <div class="devfolio-item">
+                            <strong>[Newsletter story 1]</strong> — [1 sentence teaser from the Devfolio newsletter this week.]
+                        </div>
+                        <div class="devfolio-item">
+                            <strong>[Newsletter story 2]</strong> — [1 sentence teaser from the Devfolio newsletter this week.]
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            
-            <div class="main-story">
-                <div class="contested-banner">• ETH DENVER SPECIAL •</div>
-                
-                <div class="main-headline">
-                    ETH DENVER WEEK: BASE GOES ALL-IN ON AI AGENTS, x402 PAYMENTS, AND THE AGENTIC ECONOMY
-                </div>
-                
-                <div class="byline">
-                    BY DEVFOLIO TIMES INTELLIGENCE • ETH DENVER / BASE ECOSYSTEM (FEB 23, 2026)
-                </div>
-                
-                <div class="main-text">
-                    This was the week Base stopped being just another L2 and became the infrastructure layer for the agentic economy. At ETH Denver, the Base team made its vision unmistakably clear: the future is autonomous agents transacting onchain, and Base is where they'll live.
-                </div>
-                
-                <div class="main-text">
-                    The headline announcement was Stripe's introduction of x402 on Base — a protocol enabling $140B payment giant Stripe to facilitate direct USDC payments from AI agents. Within days, builders had already shipped production tools: RequestTap, an open-source x402 API router that turns any API into a pay-per-request service for AI agents, and SnapBase, a screenshot service where agents pay 0.05 USDC per call via their wallet. No credit cards. No subscriptions. Just wallet + USDC.
-                </div>
-                
-                <div class="subheading">Conway's "Web 4.0" Vision Goes Viral</div>
-                
-                <div class="main-text">
-                    Conway Research dominated the discourse with their "Web 4.0" blog post, introducing what they call The Automaton: a self-improving, sovereign AI agent. Conway founder @0xsigil appeared on TBPN to elaborate on the agentic economy vision and how x402 fits into a world where AI agents autonomously negotiate, earn, and spend.
-                </div>
-                
-                <div class="main-text">
-                    The vision found immediate traction. Virtuals.io launched their Revenue Network this week, allowing AI agents to negotiate terms and execute financial transactions onchain. Meanwhile, Zeru Finance shipped AgentScan — the first "front page" for AI agents on Base, where agents register, mint behavior-based zScores, and become discoverable to other agents and humans.
-                </div>
-                
-                <div style="background: #0a0a0f; border: 2px solid #00ff88; padding: 12px; margin: 10px 0;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span style="color: #00ff88; font-size: 10px; font-weight: bold;">AGENTIC ECONOMY — THIS WEEK</span>
-                        <span style="color: #00ff88; font-size: 10px;">●LIVE</span>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9px; color: #ccc;">
-                        <div>x402 (Stripe): <span style="color: #00ff88;">LIVE ✓</span></div>
-                        <div>Virtuals Revenue: <span style="color: #00ff88;">LIVE ✓</span></div>
-                        <div>AgentScan (Zeru): <span style="color: #00ff88;">LIVE ✓</span></div>
-                        <div>Fate Market: <span style="color: #00ff88;">LIVE ✓</span></div>
-                    </div>
-                    <div style="background: #00ff88; height: 3px; width: 100%; margin-top: 8px;"></div>
-                </div>
-                
-                <div class="subheading">Jesse Returns to Code</div>
-                
-                <div class="main-text">
-                    In a characteristically candid tweet that racked up 586 likes and 19K impressions, Jesse Pollak declared: "I am back to writing code every day and it feels incredible." The Base creator also highlighted agents joining onchain teams via 0xSplits — a fully onchain team banking product — suggesting the infrastructure for agent-human collaboration is already being built.
-                </div>
-                
-                <div class="main-text">
-                    Jesse's ETH Denver appearances reinforced the builder-first thesis. In a sit-down with Senior PM Nick Prince, he explained why Base focuses relentlessly on builders. In another viral clip (824 likes, 57K impressions), he argued that tokens should be tied to real substance: "We need to help builders understand the benefits of tokenizing their project and opting in to make those tokens truly valuable."
-                </div>
-                
-                <div class="subheading">The Stablecoin Imperative</div>
-                
-                <div class="main-text">
-                    Perhaps the most provocative moment came from the Base team's ETH Denver hot take that collected 540 likes and 45K impressions: "If you're in crypto and not paying with stablecoins, you're a fraud." The timing was deliberate — USDG stablecoin integration on Base was announced the same week, expanding stablecoin options beyond USDC's current dominance.
-                </div>
-                
-                <div class="main-text">
-                    On the DeFi front, Base TVL sits at $3.73B per DeFiLlama, down 3.8% week-over-week from $3.88B amid broader market softness. Morpho dominates at $1.865B, followed by Aave V3 ($733M) and Steakhouse Financial ($627M). Aerodrome Slipstream holds $192M with Uniswap V3 close behind at $187M.
-                </div>
-                
-                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; margin: 10px 0; border: 1px solid #000; position: relative;">
-                    <h4 style="color: #00ff88; font-size: 12px; text-align: center; margin-bottom: 15px;">BASE ECOSYSTEM MAP — FEB 2026</h4>
-                    <div style="position: relative; height: 100px;">
-                        <div style="position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 30px; height: 30px; background: #00ff88; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: black; font-weight: bold;">BASE</div>
-                        <div style="position: absolute; top: 10px; left: 10%; width: 22px; height: 22px; background: #00ccff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5px; color: black; font-weight: bold;">x402</div>
-                        <div style="position: absolute; top: 70px; left: 80%; width: 20px; height: 20px; background: #ff6b6b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5px; color: white;">AI</div>
-                        <div style="position: absolute; top: 5px; right: 15%; width: 20px; height: 20px; background: #ffd93d; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5px; color: black;">MORPHO</div>
-                        <div style="position: absolute; bottom: 5px; left: 25%; width: 18px; height: 18px; background: #6bcf7f; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5px; color: black;">AAVE</div>
-                        <div style="position: absolute; top: 15px; left: 38%; width: 18px; height: 18px; background: #ff9f43; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5px; color: black;">VIRT</div>
-                        <div style="position: absolute; bottom: 10px; right: 30%; width: 18px; height: 18px; background: #a29bfe; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5px; color: white;">CONW</div>
-                        <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                            <line x1="50%" y1="55px" x2="20%" y2="25px" stroke="#00ff88" stroke-width="1" opacity="0.6"/>
-                            <line x1="50%" y1="55px" x2="80%" y2="80px" stroke="#00ff88" stroke-width="1" opacity="0.6"/>
-                            <line x1="50%" y1="55px" x2="75%" y2="20px" stroke="#00ff88" stroke-width="1" opacity="0.6"/>
-                            <line x1="50%" y1="55px" x2="35%" y2="90px" stroke="#00ff88" stroke-width="1" opacity="0.6"/>
-                            <line x1="50%" y1="55px" x2="45%" y2="25px" stroke="#00ff88" stroke-width="1" opacity="0.6"/>
-                            <line x1="50%" y1="55px" x2="65%" y2="85px" stroke="#00ff88" stroke-width="1" opacity="0.6"/>
-                        </svg>
-                    </div>
-                </div>
+
+            <!-- Subscribe -->
+            <div class="subscribe-box" style="margin-top: 12px;">
+                <h3>The Weekly<br>Intelligence</h3>
+                <p>Builder news, hackathon alpha, ecosystem signals — every week.</p>
+                <input type="email" placeholder="your@email.com">
+                <button class="subscribe-btn">Subscribe</button>
             </div>
-            
-            <div class="right-column">
-                <div class="federal-box">
-                    <div class="federal-title">THE ECOSYSTEM</div>
-                    <div class="federal-main">BUIDL</div>
-                    <div class="federal-sub">AGENT ECONOMY ERA</div>
-                    <a href="#" class="federal-btn">ETH DENVER 2026</a>
-                </div>
-                
-                <div class="dispatch-box">
-                    <div class="dispatch-title">The Weekly<br>Intelligence</div>
-                    <div class="dispatch-text">
-                        Receive the ecosystem's smartest analysis and exclusive builder intel directly to your inbox.
-                    </div>
-                    <div style="margin-bottom: 12px;">
-                        <input type="email" placeholder="Your onchain address" style="width: 100%; padding: 6px; border: 1px solid #ccc; font-size: 11px;">
-                    </div>
-                    <button class="subscribe-btn">SUBSCRIBE</button>
-                </div>
-                
-                <div class="spotlight-box">
-                    <h3 style="font-size: 12px; text-transform: uppercase; margin-bottom: 10px; font-weight: bold;">WEEKLY SPOTLIGHT</h3>
-                    <div class="spotlight-icon">🤖</div>
-                    <div class="spotlight-text">
-                        <strong>Fate Market</strong> — the first prediction market built exclusively for AI agents. No humans allowed to trade. Only AI agents create markets, place bets, and compete for profit — all onchain on Base. You just watch. 👁️
-                    </div>
-                </div>
-                
-                <div class="on-this-day">
-                    <h3>ALSO THIS WEEK</h3>
-                    <p><strong>PlaysOut:</strong> Mini app by @jplays turns the Base app into a mini game universe — from viral hits to arcade classics. RT'd by Jesse.</p>
-                    <p><strong>Wishwish.art:</strong> Onchain digital toy store where collectibles live as widgets on your phone home screen.</p>
-                    <p><strong>ChallengR:</strong> Shipped on Base less than a week ago — Jesse already noticed. "This is why you build on Base."</p>
-                    <p><strong>0xSplits:</strong> Agents joining onchain teams. Jesse: "Awesome fully onchain team banking product." (343 ❤️ · 28K views)</p>
-                </div>
-                
-                <div class="section-header" style="margin-top: 15px;">Protocol Rankings (DeFiLlama)</div>
-                <div style="font-size: 10px; line-height: 1.4; margin-bottom: 15px;">
-                    <p style="margin-bottom: 8px;"><strong>MORPHO:</strong> $1.865B TVL — dominant lending protocol on Base, attracting institutional borrowers and yield seekers.</p>
-                    
-                    <p style="margin-bottom: 8px;"><strong>AAVE V3:</strong> $733M TVL — established DeFi giant maintaining strong Base presence alongside Morpho.</p>
-                    
-                    <p style="margin-bottom: 8px;"><strong>STEAKHOUSE:</strong> $627M TVL — real-world asset integration gaining traction in Base's DeFi stack.</p>
-                    
-                    <p><strong>AERODROME:</strong> $298M combined (Slipstream $192M + V1 $106M) — Base's native DEX powering ecosystem liquidity.</p>
-                </div>
-                
-                <div style="background: #000; color: #fff; padding: 12px; text-align: center; margin-top: 15px;">
-                    <div style="font-size: 11px; margin-bottom: 6px; text-transform: uppercase;">JESSE'S TOP TWEETS</div>
-                    <div style="font-size: 9px; text-align: left; line-height: 1.5;">
-                        <div style="margin-bottom: 6px;">🔵 "good morning base" — 924 ❤️</div>
-                        <div style="margin-bottom: 6px;">🔵 "back to writing code" — 586 ❤️</div>
-                        <div style="margin-bottom: 6px;">🔵 "tokens tied to substance" — 824 ❤️</div>
-                        <div>🔵 "agents on teams" — 343 ❤️</div>
-                    </div>
-                </div>
-                
-                <div class="section-header" style="margin-top: 15px;">Builder Rankings</div>
-                <div style="font-size: 10px; line-height: 1.3;">
-                    <div style="margin-bottom: 6px; display: flex; justify-content: space-between;">
-                        <span><strong>1. MORPHO</strong></span>
-                        <span>$1.865B</span>
-                    </div>
-                    <div style="margin-bottom: 6px; display: flex; justify-content: space-between;">
-                        <span><strong>2. AAVE V3</strong></span>
-                        <span>$733M</span>
-                    </div>
-                    <div style="margin-bottom: 6px; display: flex; justify-content: space-between;">
-                        <span><strong>3. STEAKHOUSE</strong></span>
-                        <span>$627M</span>
-                    </div>
-                    <div style="margin-bottom: 6px; display: flex; justify-content: space-between;">
-                        <span><strong>4. GAUNTLET</strong></span>
-                        <span>$382M</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <span><strong>5. AERODROME</strong></span>
-                        <span>$298M</span>
-                    </div>
-                </div>
+
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- BUILDERS TIME (full width)                      -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="builders-section">
+        <div class="builders-header">Builders Time</div>
+        <div class="builders-subheader">[X] ideas inspired by this week — pick one and ship it</div>
+
+        <div class="builders-grid">
+            <div class="builder-idea">
+                <h4>1. [Idea Title]</h4>
+                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
             </div>
-            
-            <div class="builders-section">
-                <div class="builders-header">BUILDERS TIME</div>
-                <div class="builders-subheader">12 Ideas Inspired by This Week's Base Ecosystem Developments</div>
-                
-                <div class="builders-grid">
-                    <div class="builder-idea">
-                        <h4>1. x402 API Marketplace</h4>
-                        <p>Build a discovery platform for x402-enabled APIs. AI agents browse, compare pricing, and pay-per-request via USDC. Think "API marketplace but the customers are autonomous agents." RequestTap showed the way — now scale it.</p>
-                    </div>
-                    
-                    <div class="builder-idea">
-                        <h4>2. Agent Reputation Protocol</h4>
-                        <p>Extend AgentScan's zScore concept into a full reputation layer. Agents earn trust scores from completed transactions, service quality, and peer reviews. Essential infrastructure for the agentic economy Conway envisions.</p>
-                    </div>
-                    
-                    <div class="builder-idea">
-                        <h4>3. Autonomous Revenue Splitter</h4>
-                        <p>Combine 0xSplits with AI agent teams. Build a system where agents autonomously form teams, split revenue, and dissolve partnerships — all onchain. Jesse's "agents on teams" tweet is the signal.</p>
-                    </div>
-                    
-                    <div class="builder-idea">
-                        <h4>4. Stablecoin Payment Widget</h4>
-                        <p>Ship a drop-in widget for any app to accept USDC/USDG payments on Base. Target the "stablecoins or fraud" thesis. One-line integration, instant settlement, zero chargebacks. The Stripe of onchain payments.</p>
-                    </div>
-                    
-                    <div class="builder-idea">
-                        <h4>5. AI Agent Prediction Arena</h4>
-                        <p>Fork Fate Market's "agents only" concept into other domains — sports, elections, crypto prices. Humans watch and bet on which agent strategy wins. Spectator economics meets agent autonomy.</p>
-                    </div>
-                    
-                    <div class="builder-idea">
-                        <h4>6. Web 4.0 Agent Framework</h4>
-                        <p>Build the open-source SDK for Conway's Automaton vision. Self-improving agents that can upgrade their own code, negotiate with other agents, and manage their own treasury on Base.</p>
-                    </div>
-                    
-                    <div class="builder-idea">
-                        <h4>7. Onchain Toy Store Platform</h4>
-                        <p>Inspired by Wishwish.art — build tools for creators to launch digital collectibles that live as phone widgets. Merge NFTs with daily utility. The "digital toy" category is wide open.</p>
-                    </div>
-                    
-                    <div class="builder-idea">
-                        <h4>8. Token Launch with Built-in Substance</h4>
-                        <p>Following Jesse's "tokens tied to substance" thesis — build a launchpad that requires projects to demonstrate utility before token creation. Anti-rug by design, aligned with Base's builder values.</p>
-                    </div>
-                    
-                    <div class="builder-idea">
-                        <h4>9. Agent-to-Agent Communication Layer</h4>
-                        <p>Build the messaging protocol for agents to discover and negotiate with each other onchain. Combine Virtuals Revenue Network + AgentScan into a full agent social graph.</p>
-                    </div>
-                    
-                    <div class="builder-idea">
-                        <h4>10. Mini App Game Engine</h4>
-                        <p>PlaysOut proved Base mini apps work for gaming. Build the engine that lets any developer ship games in the Base app with one click. Leaderboards, rewards, and social features built in.</p>
-                    </div>
-                    
-                    <div class="builder-idea">
-                        <h4>11. DeFi Position Manager for Agents</h4>
-                        <p>AI agents that autonomously manage lending positions across Morpho ($1.87B), Aave ($733M), and Steakhouse ($627M). Auto-rebalance based on yield optimization. Agents as portfolio managers.</p>
-                    </div>
-                    
-                    <div class="builder-idea">
-                        <h4>12. Agent Hiring Platform</h4>
-                        <p>Marketplace where humans post tasks and AI agents bid to complete them — coding, research, trading, content. Payments via x402, reputation via AgentScan zScores. The future labor market.</p>
-                    </div>
-                </div>
+            <div class="builder-idea">
+                <h4>2. [Idea Title]</h4>
+                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
+            </div>
+            <div class="builder-idea">
+                <h4>3. [Idea Title]</h4>
+                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
+            </div>
+            <div class="builder-idea">
+                <h4>4. [Idea Title]</h4>
+                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
+            </div>
+            <div class="builder-idea">
+                <h4>5. [Idea Title]</h4>
+                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
+            </div>
+            <div class="builder-idea">
+                <h4>6. [Idea Title]</h4>
+                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
+            </div>
+            <div class="builder-idea">
+                <h4>7. [Idea Title]</h4>
+                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
+            </div>
+            <div class="builder-idea">
+                <h4>8. [Idea Title]</h4>
+                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
+            </div>
+            <div class="builder-idea">
+                <h4>9. [Idea Title]</h4>
+                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
+            </div>
+            <div class="builder-idea">
+                <h4>10. [Idea Title]</h4>
+                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
+            </div>
+            <div class="builder-idea">
+                <h4>11. [Idea Title]</h4>
+                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
+            </div>
+            <div class="builder-idea">
+                <h4>12. [Idea Title]</h4>
+                <p>[3-4 sentences. What's the idea? Problem it solves? Tech approach? Why build it now?]</p>
             </div>
         </div>
     </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- FROM DEVFOLIO — Slack Recommendations           -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="from-devfolio">
+        <div class="from-devfolio-header">From Devfolio</div>
+        <div class="from-devfolio-sub">Good stuff shared inside Devfolio this week — links, reads, music, random</div>
+
+        <div class="slack-grid">
+
+            <!-- #reading -->
+            <div class="slack-channel">
+                <div class="slack-channel-name"># reading</div>
+                <div class="slack-item">
+                    <a href="#">[Article/Book Title]</a>
+                    <div class="slack-meta">via [Name] · [Domain]</div>
+                </div>
+                <div class="slack-item">
+                    <a href="#">[Article/Book Title]</a>
+                    <div class="slack-meta">via [Name] · [Domain]</div>
+                </div>
+                <div class="slack-item">
+                    <a href="#">[Article/Book Title]</a>
+                    <div class="slack-meta">via [Name] · [Domain]</div>
+                </div>
+            </div>
+
+            <!-- #random -->
+            <div class="slack-channel">
+                <div class="slack-channel-name"># random</div>
+                <div class="slack-item">
+                    <a href="#">[Link title or description]</a>
+                    <div class="slack-meta">via [Name]</div>
+                </div>
+                <div class="slack-item">
+                    <a href="#">[Link title or description]</a>
+                    <div class="slack-meta">via [Name]</div>
+                </div>
+                <div class="slack-item">
+                    <a href="#">[Link title or description]</a>
+                    <div class="slack-meta">via [Name]</div>
+                </div>
+            </div>
+
+            <!-- #music -->
+            <div class="slack-channel">
+                <div class="slack-channel-name"># music</div>
+                <div class="slack-item">
+                    <a href="#">[Song / Album / Playlist]</a>
+                    <div class="slack-meta">via [Name] · [Artist]</div>
+                </div>
+                <div class="slack-item">
+                    <a href="#">[Song / Album / Playlist]</a>
+                    <div class="slack-meta">via [Name] · [Artist]</div>
+                </div>
+                <div class="slack-item">
+                    <a href="#">[Song / Album / Playlist]</a>
+                    <div class="slack-meta">via [Name] · [Artist]</div>
+                </div>
+            </div>
+
+            <!-- #watercooler -->
+            <div class="slack-channel">
+                <div class="slack-channel-name"># watercooler</div>
+                <div class="slack-item">
+                    <a href="#">[Meme / Tweet / Fun link]</a>
+                    <div class="slack-meta">via [Name]</div>
+                </div>
+                <div class="slack-item">
+                    <a href="#">[Meme / Tweet / Fun link]</a>
+                    <div class="slack-meta">via [Name]</div>
+                </div>
+                <div class="slack-item">
+                    <a href="#">[Meme / Tweet / Fun link]</a>
+                    <div class="slack-meta">via [Name]</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        The Devfolio Times · Issue #[XX] · [Date] · Built with ☕ by the Devfolio team
+    </footer>
+
+</div>
+
 </body>
 </html>
