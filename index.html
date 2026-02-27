@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Devfolio Times - Weekly Builder Intelligence</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --accent: #3770FF;
+            --accent-dark: #1a3a99;
+            --accent-light: #e8eeff;
+        }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            background: #f8f8f8;
+            color: #000;
+            line-height: 1.4;
+        }
+
+        .ticker {
+            background: var(--accent);
+            color: #fff;
+            padding: 8px;
+            font-size: 12px;
+            text-align: center;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .ticker-content {
+            animation: scroll-left 60s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes scroll-left {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .newspaper {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            min-height: 100vh;
+        }
+
+        .header {
+            padding: 15px 25px;
+            border-bottom: 3px solid #000;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .masthead {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .masthead h1 {
+            font-size: 3.2rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+
+        .masthead-sub {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .date-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .quote-box {
+            border: 2px solid var(--accent);
+            padding: 12px;
+            margin: 15px 0;
+            font-style: italic;
+            text-align: center;
+            background: var(--accent-light);
+            font-size: 13px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr 280px;
+            gap: 20px;
+            padding: 20px 25px;
+        }
+
+        .left-column {
+            border-right: 2px solid #000;
+            padding-right: 15px;
+        }
+
+        .right-column {
+            border-left: 2px solid #000;
+            padding-left: 15px;
+        }
+
+        .section-header {
+            background: var(--accent);
+            color: #fff;
+            padding: 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .brief-item {
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .brief-item:last-child { border-bottom: none; }
+
+        .brief-headline {
+            font-weight: bold;
+            font-size: 12px;
+            line-height: 1.2;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .brief-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .brief-text {
+            font-size: 11px;
+            line-height: 1.3;
+            text-align: justify;
+        }
+
+        .main-story { padding: 0 10px; }
+
+        .contested-banner {
+            background: var(--accent);
+            color: #fff;
+            padding: 4px 12px;
+            display: inline-block;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .main-headline {
+            font-size: 2.2rem;
+            font-weight: bold;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .byline {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .main-text {
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: justify;
+            margin-bottom: 15px;
+            text-indent: 15px;
+        }
+
+        .subheading {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 18px 0 10px 0;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 3px;
+        }
+
+        .stats-box {
+            border: 2px solid #000;
+            padding: 15px;
+            margin: 15px 0;
+            background: #f9f9f9;
+        }
+
+        .stats-box h3 {
+            font-size: 14px;
+            margin-bottom: 12px;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 12px;
+        }
+
+        .stat-item:last-child { margin-bottom: 0; }
+
+        .dispatch-box {
+            background: #f9f9f9;
+            border: 2px solid #000;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .dispatch-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .dispatch-text {
+            font-size: 11px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .subscribe-btn {
+            background: var(--accent);
+            color: #fff;
+            padding: 10px 25px;
+            border: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .federal-box {
+            background: var(--accent);
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            border: 3px solid #000;
+            margin-bottom: 15px;
+        }
+
+        .federal-title {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        .federal-main {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 12px 0;
+        }
+
+        .federal-sub {
+            font-size: 11px;
+            margin-bottom: 12px;
+            opacity: 0.85;
+        }
+
+        .federal-btn {
+            border: 1px solid #fff;
+            padding: 6px 12px;
+            font-size: 10px;
+            display: inline-block;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .spotlight-box {
+            background: #f5f5f5;
+            border: 2px solid #000;
+            padding: 12px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .spotlight-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-light);
+            margin: 0 auto 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .spotlight-text {
+            font-size: 10px;
+            line-height: 1.3;
+        }
+
+        .on-this-day {
+            background: #f0f0f0;
+            border: 2px solid #000;
+            padding: 12px;
+            margin: 15px 0;
+        }
+
+        .on-this-day h3 {
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: bold;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+        }
+
+        .on-this-day p {
+            font-size: 10px;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .on-this-day p:last-child { margin-bottom: 0; }
+
+        .builders-section {
+            grid-column: 1 / -1;
+            border-top: 3px solid #000;
+            background: #f8f8f8;
+            padding: 25px;
+        }
+
+        .builders-header {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .builders-subheader {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .builders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .builder-idea {
+            border: 2px solid #000;
+            padding: 12px;
+            background: #fff;
+        }
+
+        .builder-idea h4 {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--accent);
+            text-transform: uppercase;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 4px;
+        }
+
+        .builder-idea p {
+            font-size: 10px;
+            line-height: 1.4;
+            text-align: justify;
+        }
+
+        .breaking-news {
+            background: var(--accent);
+            color: #fff;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 11px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content { grid-template-columns: 1fr; }
+            .left-column, .right-column { border: none; padding: 0; }
+            .main-headline { font-size: 1.5rem; }
+            .masthead h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TICKER: update with weekly headlines -->
+    <div class="ticker">
+        <div class="ticker-content">
+            [HEADLINE 1] • [HEADLINE 2] • [HEADLINE 3] • [HEADLINE 4] • [HEADLINE 5] • [HEADLINE 6] • [HEADLINE 7] • [HEADLINE 8]
+        </div>
+    </div>
+
+    <div class="newspaper">
+        <div class="header">
+            <div class="header-top">
+                <div>
+                    <span><strong>VOL. I</strong></span>
+                    <span style="margin-left: 20px;"><strong>ARCHIVES</strong></span>
+                </div>
+                <div>
+                    <span><strong>[CITY], [DAY], [DATE]</strong></span>
+                </div>
+                <div>
+                    <span><strong>PRICE: FREE</strong></span>
+                </div>
+            </div>
+
+            <!-- QUOTE BOX: featured quote of the week -->
+            <div class="quote-box">
+                <em>"[Weekly featured quote from the builder ecosystem]"</em><br>
+                <strong>— [Name, Role] ([engagement stats])</strong>
+            </div>
+
+            <div class="masthead">
+                <h1>The Devfolio Times</h1>
+                <div class="masthead-sub">Weekly Builder Intelligence • [TIME] IST</div>
+            </div>
+
+            <div class="date-info">
+                <div>🟢 <strong>Live</strong> • <button style="border: 1px solid #000; background: #fff; padding: 2px 6px; font-size: 10px;">↻ REFRESH</button></div>
+                <div><strong>Vol. I • No. 01 • [Edition Name]</strong></div>
+                <div><button style="border: 1px solid #000; background: #fff; padding: 2px 6px; font-size: 10px;">⚡ GET LATEST</button></div>
+            </div>
+        </div>
+
+        <!-- BREAKING NEWS: top story of the week -->
+        <div class="breaking-news">
+            [BREAKING]: [TOP STORY THIS WEEK] • [STAT/METRIC] • [ANOTHER HEADLINE]
+        </div>
+
+        <div class="main-content">
+
+            <!-- ═══════════════════════════════════════ -->
+            <!-- LEFT COLUMN: ecosystem briefs + stats  -->
+            <!-- ═══════════════════════════════════════ -->
+            <div class="left-column">
+                <div class="section-header">Ecosystem Briefs</div>
+
+                <!-- Brief 1 -->
+                <div class="brief-item">
+                    <div class="brief-headline">[BRIEF HEADLINE 1]</div>
+                    <div class="brief-price">[STAT / METRIC]</div>
+                    <div class="brief-text">[2-3 sentence brief. What happened, why it matters, who's involved.]</div>
+                </div>
+
+                <!-- Brief 2 -->
+                <div class="brief-item">
+                    <div class="brief-headline">[BRIEF HEADLINE 2]</div>
+                    <div class="brief-price">[STAT / METRIC]</div>
+                    <div class="brief-text">[2-3 sentence brief. What happened, why it matters, who's involved.]</div>
+                </div>
+
+                <!-- Brief 3 -->
+                <div class="brief-item">
+                    <div class="brief-headline">[BRIEF HEADLINE 3]</div>
+                    <div class="brief-price">[STAT / METRIC]</div>
+                    <div class="brief-text">[2-3 sentence brief. What happened, why it matters, who's involved.]</div>
+                </div>
+
+                <!-- Brief 4 -->
+                <div class="brief-item">
+                    <div class="brief-headline">[BRIEF HEADLINE 4]</div>
+                    <div class="brief-price">[STAT / METRIC]</div>
+                    <div class="brief-text">[2-3 sentence brief. What happened, why it matters, who's involved.]</div>
+                </div>
+
+                <!-- Brief 5 -->
+                <div class="brief-item">
+                    <div class="brief-headline">[BRIEF HEADLINE 5]</div>
+                    <div class="brief-price">[STAT / METRIC]</div>
+                    <div class="brief-text">[2-3 sentence brief. What happened, why it matters, who's involved.]</div>
+                </div>
+
+                <!-- Brief 6 -->
+                <div class="brief-item">
+                    <div class="brief-headline">[BRIEF HEADLINE 6]</div>
+                    <div class="brief-price">[STAT / METRIC]</div>
+                    <div class="brief-text">[2-3 sentence brief. What happened, why it matters, who's involved.]</div>
+                </div>
+
+                <!-- STATS BOX: replace with relevant weekly metrics -->
+                <div class="stats-box">
+                    <h3>Devfolio Week In Numbers</h3>
+                    <div class="stat-item">
+                        <span><strong>HACKATHONS</strong></span>
+                        <span><strong>[X]</strong></span>
+                    </div>
+                    <div class="stat-item">
+                        <span><strong>SUBMISSIONS</strong></span>
+                        <span><strong>[X]</strong></span>
+                    </div>
+                    <div class="stat-item">
+                        <span><strong>BUILDERS</strong></span>
+                        <span><strong>[X]</strong></span>
+                    </div>
+                    <div class="stat-item">
+                        <span><strong>PRIZE POOL</strong></span>
+                        <span><strong>$[X]</strong></span>
+                    </div>
+                    <div class="stat-item">
+                        <span><strong>SPONSORS</strong></span>
+                        <span><strong>[X]</strong></span>
+                    </div>
+                </div>
+
+                <!-- BAR CHART: top hackathons/events by submissions -->
+                <div style="background: linear-gradient(135deg, #0f1729, #1a2a5e); padding: 15px; margin: 10px 0; border: 1px solid #000;">
+                    <h4 style="color: #3770FF; font-size: 12px; text-align: center; margin-bottom: 10px; color: #7fa8ff;">TOP EVENTS THIS WEEK</h4>
+                    <div style="display: flex; align-items: flex-end; justify-content: space-between; height: 80px; padding: 0 5px;">
+                        <div style="text-align: center;">
+                            <div style="background: #3770FF; width: 28px; height: 100%; margin: 0 auto;"></div>
+                            <div style="color: #ccc; font-size: 7px; margin-top: 3px;">[EVENT 1]<br>[X] teams</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="background: #7fa8ff; width: 28px; height: 75%; margin: 0 auto;"></div>
+                            <div style="color: #ccc; font-size: 7px; margin-top: 3px;">[EVENT 2]<br>[X] teams</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="background: #3770FF; width: 28px; height: 55%; margin: 0 auto;"></div>
+                            <div style="color: #ccc; font-size: 7px; margin-top: 3px;">[EVENT 3]<br>[X] teams</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="background: #7fa8ff; width: 28px; height: 40%; margin: 0 auto;"></div>
+                            <div style="color: #ccc; font-size: 7px; margin-top: 3px;">[EVENT 4]<br>[X] teams</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="background: #3770FF; width: 28px; height: 25%; margin: 0 auto;"></div>
+                            <div style="color: #ccc; font-size: 7px; margin-top: 3px;">[EVENT 5]<br>[X] teams</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════ -->
+            <!-- MAIN STORY: the week's big narrative   -->
+            <!-- ═══════════════════════════════════════ -->
+            <div class="main-story">
+                <div class="contested-banner">• [EDITION TAG] •</div>
+
+                <div class="main-headline">
+                    [MAIN STORY HEADLINE: THE BIG THING THAT HAPPENED THIS WEEK IN THE BUILDER ECOSYSTEM]
+                </div>
+
+                <div class="byline">
+                    BY DEVFOLIO TIMES INTELLIGENCE • [LOCATION / CONTEXT] ([DATE])
+                </div>
+
+                <div class="main-text">
+                    [Opening paragraph — set the scene. What's the big theme this week? Why does it matter? Hook the reader in 3-4 sentences.]
+                </div>
+
+                <div class="main-text">
+                    [Second paragraph — the details. Who did what, what was announced, what shipped. Numbers and names matter here.]
+                </div>
+
+                <div class="subheading">[Subheading 1]</div>
+
+                <div class="main-text">
+                    [Paragraph expanding on subheading 1 — dive deeper into one specific angle of the story.]
+                </div>
+
+                <div class="main-text">
+                    [Follow-up paragraph — quotes, reactions, implications.]
+                </div>
+
+                <!-- LIVE STATUS BOX: week's key launches/announcements -->
+                <div style="background: #0a0f1e; border: 2px solid #3770FF; padding: 12px; margin: 10px 0;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: #7fa8ff; font-size: 10px; font-weight: bold;">[STATUS BOX TITLE] — THIS WEEK</span>
+                        <span style="color: #3770FF; font-size: 10px;">●LIVE</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9px; color: #ccc;">
+                        <div>[Item 1]: <span style="color: #3770FF;">LIVE ✓</span></div>
+                        <div>[Item 2]: <span style="color: #3770FF;">LIVE ✓</span></div>
+                        <div>[Item 3]: <span style="color: #3770FF;">LIVE ✓</span></div>
+                        <div>[Item 4]: <span style="color: #3770FF;">LIVE ✓</span></div>
+                    </div>
+                    <div style="background: #3770FF; height: 3px; width: 100%; margin-top: 8px;"></div>
+                </div>
+
+                <div class="subheading">[Subheading 2]</div>
+
+                <div class="main-text">
+                    [Third major angle — another dimension of the week's story. Could be a different event, person, or trend.]
+                </div>
+
+                <div class="main-text">
+                    [Supporting detail — stats, context, comparisons to previous weeks/editions.]
+                </div>
+
+                <div class="subheading">[Subheading 3]</div>
+
+                <div class="main-text">
+                    [Third section — implications, what's coming next, what builders should watch for.]
+                </div>
+
+                <div class="main-text">
+                    [Closing paragraph — wrap up with the week's numbers, what it means for the ecosystem.]
+                </div>
+
+                <!-- ECOSYSTEM MAP: key players/projects this week -->
+                <div style="background: linear-gradient(135deg, #0f1729, #1a2a5e); padding: 15px; margin: 10px 0; border: 1px solid #000; position: relative;">
+                    <h4 style="color: #7fa8ff; font-size: 12px; text-align: center; margin-bottom: 15px;">DEVFOLIO ECOSYSTEM MAP — [MONTH YEAR]</h4>
+                    <div style="position: relative; height: 100px;">
+                        <div style="position: absolute; top: 35px; left: 50%; transform: translateX(-50%); width: 34px; height: 34px; background: #3770FF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 7px; color: white; font-weight: bold; text-align: center;">DEV<br>FOLIO</div>
+                        <div style="position: absolute; top: 8px; left: 10%; width: 24px; height: 24px; background: #7fa8ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 6px; color: black; font-weight: bold;">[P1]</div>
+                        <div style="position: absolute; top: 70px; left: 78%; width: 22px; height: 22px; background: #ff6b6b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 6px; color: white;">[P2]</div>
+                        <div style="position: absolute; top: 5px; right: 12%; width: 22px; height: 22px; background: #ffd93d; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5px; color: black;">[P3]</div>
+                        <div style="position: absolute; bottom: 5px; left: 22%; width: 20px; height: 20px; background: #6bcf7f; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5px; color: black;">[P4]</div>
+                        <div style="position: absolute; top: 15px; left: 38%; width: 20px; height: 20px; background: #ff9f43; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5px; color: black;">[P5]</div>
+                        <div style="position: absolute; bottom: 10px; right: 28%; width: 20px; height: 20px; background: #a29bfe; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5px; color: white;">[P6]</div>
+                        <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                            <line x1="50%" y1="52px" x2="19%" y2="22px" stroke="#3770FF" stroke-width="1" opacity="0.5"/>
+                            <line x1="50%" y1="52px" x2="81%" y2="78px" stroke="#3770FF" stroke-width="1" opacity="0.5"/>
+                            <line x1="50%" y1="52px" x2="78%" y2="17px" stroke="#3770FF" stroke-width="1" opacity="0.5"/>
+                            <line x1="50%" y1="52px" x2="33%" y2="88px" stroke="#3770FF" stroke-width="1" opacity="0.5"/>
+                            <line x1="50%" y1="52px" x2="46%" y2="24px" stroke="#3770FF" stroke-width="1" opacity="0.5"/>
+                            <line x1="50%" y1="52px" x2="67%" y2="84px" stroke="#3770FF" stroke-width="1" opacity="0.5"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════ -->
+            <!-- RIGHT COLUMN: digest, spotlight, links -->
+            <!-- ═══════════════════════════════════════ -->
+            <div class="right-column">
+
+                <!-- BUIDL / featured event box -->
+                <div class="federal-box">
+                    <div class="federal-title">FEATURED EVENT</div>
+                    <div class="federal-main">[EVENT]</div>
+                    <div class="federal-sub">[TAGLINE / DATES / PRIZES]</div>
+                    <a href="#" class="federal-btn">APPLY NOW →</a>
+                </div>
+
+                <!-- Subscribe box -->
+                <div class="dispatch-box">
+                    <div class="dispatch-title">The Weekly<br>Intelligence</div>
+                    <div class="dispatch-text">
+                        Builder news, ecosystem signals, and hackathon alpha — delivered weekly.
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <input type="email" placeholder="your@email.com" style="width: 100%; padding: 6px; border: 1px solid #ccc; font-size: 11px;">
+                    </div>
+                    <button class="subscribe-btn">SUBSCRIBE</button>
+                </div>
+
+                <!-- Weekly spotlight -->
+                <div class="spotlight-box">
+                    <h3 style="font-size: 12px; text-transform: uppercase; margin-bottom: 10px; font-weight: bold;">WEEKLY SPOTLIGHT</h3>
+                    <div class="spotlight-icon">🏆</div>
+                    <div class="spotlight-text">
+                        <strong>[Project/Team Name]</strong> — [1-2 sentence description of the standout project, winner, or builder moment of the week. What did they build? Why does it matter?]
+                    </div>
+                </div>
+
+                <!-- Also this week: quick hits -->
+                <div class="on-this-day">
+                    <h3>ALSO THIS WEEK</h3>
+                    <p><strong>[Quick hit 1]:</strong> [1 sentence. What happened, who was involved.]</p>
+                    <p><strong>[Quick hit 2]:</strong> [1 sentence. What happened, who was involved.]</p>
+                    <p><strong>[Quick hit 3]:</strong> [1 sentence. What happened, who was involved.]</p>
+                    <p><strong>[Quick hit 4]:</strong> [1 sentence. What happened, who was involved.]</p>
+                </div>
+
+                <!-- Top hackathons by submissions -->
+                <div class="section-header" style="margin-top: 15px;">Top Hackathons This Week</div>
+                <div style="font-size: 10px; line-height: 1.4; margin-bottom: 15px;">
+                    <p style="margin-bottom: 8px;"><strong>[HACKATHON 1]:</strong> [X] submissions — [1 line description, theme, sponsor].</p>
+                    <p style="margin-bottom: 8px;"><strong>[HACKATHON 2]:</strong> [X] submissions — [1 line description, theme, sponsor].</p>
+                    <p style="margin-bottom: 8px;"><strong>[HACKATHON 3]:</strong> [X] submissions — [1 line description, theme, sponsor].</p>
+                    <p><strong>[HACKATHON 4]:</strong> [X] submissions — [1 line description, theme, sponsor].</p>
+                </div>
+
+                <!-- Top tweets / community box -->
+                <div style="background: #000; color: #fff; padding: 12px; text-align: center; margin-top: 15px;">
+                    <div style="font-size: 11px; margin-bottom: 6px; text-transform: uppercase;">Top Builder Tweets</div>
+                    <div style="font-size: 9px; text-align: left; line-height: 1.5;">
+                        <div style="margin-bottom: 6px;">🔵 "[tweet snippet 1]" — [X] ❤️</div>
+                        <div style="margin-bottom: 6px;">🔵 "[tweet snippet 2]" — [X] ❤️</div>
+                        <div style="margin-bottom: 6px;">🔵 "[tweet snippet 3]" — [X] ❤️</div>
+                        <div>🔵 "[tweet snippet 4]" — [X] ❤️</div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard: top sponsors / tracks -->
+                <div class="section-header" style="margin-top: 15px;">Top Sponsor Tracks</div>
+                <div style="font-size: 10px; line-height: 1.3;">
+                    <div style="margin-bottom: 6px; display: flex; justify-content: space-between;">
+                        <span><strong>1. [SPONSOR 1]</strong></span>
+                        <span>$[X]K</span>
+                    </div>
+                    <div style="margin-bottom: 6px; display: flex; justify-content: space-between;">
+                        <span><strong>2. [SPONSOR 2]</strong></span>
+                        <span>$[X]K</span>
+                    </div>
+                    <div style="margin-bottom: 6px; display: flex; justify-content: space-between;">
+                        <span><strong>3. [SPONSOR 3]</strong></span>
+                        <span>$[X]K</span>
+                    </div>
+                    <div style="margin-bottom: 6px; display: flex; justify-content: space-between;">
+                        <span><strong>4. [SPONSOR 4]</strong></span>
+                        <span>$[X]K</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span><strong>5. [SPONSOR 5]</strong></span>
+                        <span>$[X]K</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <!-- BUILDERS TIME: hackathon ideas, themes, prompts        -->
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <div class="builders-section">
+                <div class="builders-header">BUILDERS TIME</div>
+                <div class="builders-subheader">[X] Ideas Inspired by This Week's Builder Ecosystem</div>
+
+                <div class="builders-grid">
+
+                    <div class="builder-idea">
+                        <h4>1. [IDEA TITLE]</h4>
+                        <p>[3-4 sentences. What's the idea? What's the problem it solves? What's the tech stack / approach? Why now?]</p>
+                    </div>
+
+                    <div class="builder-idea">
+                        <h4>2. [IDEA TITLE]</h4>
+                        <p>[3-4 sentences. What's the idea? What's the problem it solves? What's the tech stack / approach? Why now?]</p>
+                    </div>
+
+                    <div class="builder-idea">
+                        <h4>3. [IDEA TITLE]</h4>
+                        <p>[3-4 sentences. What's the idea? What's the problem it solves? What's the tech stack / approach? Why now?]</p>
+                    </div>
+
+                    <div class="builder-idea">
+                        <h4>4. [IDEA TITLE]</h4>
+                        <p>[3-4 sentences. What's the idea? What's the problem it solves? What's the tech stack / approach? Why now?]</p>
+                    </div>
+
+                    <div class="builder-idea">
+                        <h4>5. [IDEA TITLE]</h4>
+                        <p>[3-4 sentences. What's the idea? What's the problem it solves? What's the tech stack / approach? Why now?]</p>
+                    </div>
+
+                    <div class="builder-idea">
+                        <h4>6. [IDEA TITLE]</h4>
+                        <p>[3-4 sentences. What's the idea? What's the problem it solves? What's the tech stack / approach? Why now?]</p>
+                    </div>
+
+                    <div class="builder-idea">
+                        <h4>7. [IDEA TITLE]</h4>
+                        <p>[3-4 sentences. What's the idea? What's the problem it solves? What's the tech stack / approach? Why now?]</p>
+                    </div>
+
+                    <div class="builder-idea">
+                        <h4>8. [IDEA TITLE]</h4>
+                        <p>[3-4 sentences. What's the idea? What's the problem it solves? What's the tech stack / approach? Why now?]</p>
+                    </div>
+
+                    <div class="builder-idea">
+                        <h4>9. [IDEA TITLE]</h4>
+                        <p>[3-4 sentences. What's the idea? What's the problem it solves? What's the tech stack / approach? Why now?]</p>
+                    </div>
+
+                    <div class="builder-idea">
+                        <h4>10. [IDEA TITLE]</h4>
+                        <p>[3-4 sentences. What's the idea? What's the problem it solves? What's the tech stack / approach? Why now?]</p>
+                    </div>
+
+                    <div class="builder-idea">
+                        <h4>11. [IDEA TITLE]</h4>
+                        <p>[3-4 sentences. What's the idea? What's the problem it solves? What's the tech stack / approach? Why now?]</p>
+                    </div>
+
+                    <div class="builder-idea">
+                        <h4>12. [IDEA TITLE]</h4>
+                        <p>[3-4 sentences. What's the idea? What's the problem it solves? What's the tech stack / approach? Why now?]</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
