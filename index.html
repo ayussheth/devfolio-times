@@ -112,15 +112,26 @@
         /* ─── BREAKING BAR ─── */
         .breaking {
             background: var(--red); color: #fff;
-            display: flex; align-items: center; gap: 0;
+            display: flex; align-items: center;
+            height: 28px; overflow: hidden;
             font-family: 'Space Mono', monospace; font-size: 10px;
         }
         .breaking-label {
             background: #fff; color: var(--red);
-            padding: 5px 12px; font-weight: 700;
+            padding: 0 12px; font-weight: 700;
             letter-spacing: 1px; white-space: nowrap; font-size: 9px;
+            height: 100%; display: flex; align-items: center;
+            flex-shrink: 0; border-right: 2px solid rgba(255,255,255,0.3);
         }
-        .breaking-text { padding: 5px 14px; letter-spacing: 0.3px; font-size: 10px; }
+        .breaking-scroll { overflow: hidden; flex: 1; height: 100%; }
+        .breaking-inner {
+            display: inline-flex; align-items: center; height: 100%;
+            white-space: nowrap;
+            animation: scroll-left 40s linear infinite;
+        }
+        .breaking-inner:hover { animation-play-state: paused; }
+        .breaking-item { padding: 0 28px; letter-spacing: 0.3px; }
+        .breaking-dot { opacity: 0.5; }
 
         /* ─── 3-COL GRID ─── */
         .cols {
@@ -527,7 +538,35 @@
 <!-- ═══════ BREAKING ═══════ -->
 <div class="breaking">
     <div class="breaking-label">Breaking</div>
-    <div class="breaking-text">ETH Denver BUIDLathon wraps — 750+ builders, 186 projects, 10 track winners &nbsp;·&nbsp; Vitalik drops Ethereum quantum-resistance roadmap &nbsp;·&nbsp; Base Batches #003 now live on Devfolio</div>
+    <div class="breaking-scroll">
+        <div class="breaking-inner">
+            <span class="breaking-item">Sam Altman meets PM Modi — "India is our fastest growing market for Codex globally"</span>
+            <span class="breaking-dot">·</span>
+            <span class="breaking-item">ETH Denver BUIDLathon wraps — 750+ builders, 186 projects, 10 track winners</span>
+            <span class="breaking-dot">·</span>
+            <span class="breaking-item">Karpathy: AI coding agents "basically didn't work before December" — 34.6K ❤</span>
+            <span class="breaking-dot">·</span>
+            <span class="breaking-item">Replit Agent now uses Gemini 3.1 Pro for SVG animations</span>
+            <span class="breaking-dot">·</span>
+            <span class="breaking-item">Vitalik drops Ethereum quantum-resistance roadmap</span>
+            <span class="breaking-dot">·</span>
+            <span class="breaking-item">Base Batches #003 now live on Devfolio — Startup, Student, Robotics tracks</span>
+            <span class="breaking-dot">·</span>
+            <!-- repeat for loop -->
+            <span class="breaking-item">Sam Altman meets PM Modi — "India is our fastest growing market for Codex globally"</span>
+            <span class="breaking-dot">·</span>
+            <span class="breaking-item">ETH Denver BUIDLathon wraps — 750+ builders, 186 projects, 10 track winners</span>
+            <span class="breaking-dot">·</span>
+            <span class="breaking-item">Karpathy: AI coding agents "basically didn't work before December" — 34.6K ❤</span>
+            <span class="breaking-dot">·</span>
+            <span class="breaking-item">Replit Agent now uses Gemini 3.1 Pro for SVG animations</span>
+            <span class="breaking-dot">·</span>
+            <span class="breaking-item">Vitalik drops Ethereum quantum-resistance roadmap</span>
+            <span class="breaking-dot">·</span>
+            <span class="breaking-item">Base Batches #003 now live on Devfolio — Startup, Student, Robotics tracks</span>
+            <span class="breaking-dot">·</span>
+        </div>
+    </div>
 </div>
 
 <!-- ═══════ 3-COL ═══════ -->
@@ -554,30 +593,37 @@
 
         <div class="brief">
             <span class="brief-cat ai">AI</span>
-            <div class="brief-hed">Sam Altman: Non-Technical Paths Into AGI Research</div>
-            <div class="brief-body">OpenAI is actively recruiting exceptional researchers from non-traditional backgrounds — former founders especially. Altman highlighted that the best research teams need people who understand human judgment, not just code. 4.6K likes, 627K impressions.</div>
-            <div class="brief-src">@sama · 4.6K ❤ · 627K impressions · Feb 26</div>
+            <div class="brief-hed">Sam Altman Meets PM Modi: "India Is OpenAI's Fastest Growing Market for Codex"</div>
+            <div class="brief-body">Sam Altman met Prime Minister Modi this week, calling India OpenAI's fastest growing global market for Codex. The tweet — "Great meeting with PM Modi today to talk about the incredible energy around AI in India" — drew 28K likes and 4.71M impressions, making it one of the most-viral AI tweets of the week.</div>
+            <div class="brief-src">@sama · 28K ❤ · 4.71M impressions · Feb 26</div>
+        </div>
+
+        <div class="brief">
+            <span class="brief-cat ai">AI</span>
+            <div class="brief-hed">Replit Agent Upgrades to Gemini 3.1 Pro for SVG Animations</div>
+            <div class="brief-body">Replit shipped a notable upgrade: its Agent now uses Gemini 3.1 Pro specifically for SVG animations, which the model excels at. Builders on the platform immediately noticed the quality jump — "just imagination → animation." The update makes Replit's creative tooling a serious contender for visual prototyping.</div>
+            <div class="brief-src">@Replit · 290 ❤ · Feb 26</div>
+        </div>
+
+        <div class="brief">
+            <span class="brief-cat ai">AI</span>
+            <div class="brief-hed">Karpathy: CLIs Are the Perfect Interface for AI Agents</div>
+            <div class="brief-body">"CLIs are super exciting precisely because they are a 'legacy' technology, which means AI agents can natively and easily use them, combine them, interact with them." Karpathy's argument — that old-school command-line tools are paradoxically the best fit for the AI agent era — landed hard. 11.5K likes, 1.93M impressions.</div>
+            <div class="brief-src">@karpathy · 11.5K ❤ · 1.93M impressions · Feb 25</div>
         </div>
 
         <div class="brief">
             <span class="brief-cat web3">Web3</span>
-            <div class="brief-hed">Vitalik Drops Ethereum Quantum Resistance Roadmap</div>
-            <div class="brief-body">Vitalik laid out the four quantum-vulnerable components of Ethereum — BLS signatures, KZG commitments, ECDSA EOA signatures, and ZK proofs — and a step-by-step plan to address each. The post sparked intense discussion on validator infrastructure timelines. 4.5K likes, 551K impressions.</div>
+            <div class="brief-hed">Vitalik Drops Ethereum Quantum-Resistance Roadmap</div>
+            <div class="brief-body">Vitalik laid out Ethereum's four quantum-vulnerable components — BLS signatures, KZG commitments, ECDSA EOA signatures, and ZK proofs — with a sequential plan to address each. Opens a wide new category of infra work for builders. 4.5K likes, 551K impressions.</div>
             <div class="brief-src">@vitalikbuterin · 4.5K ❤ · 551K impressions · Feb 26</div>
         </div>
 
         <div class="brief">
             <span class="brief-cat web3">Web3</span>
             <div class="brief-hed">Vitalik: "DeFi Is Central to Ethereum's Value"</div>
-            <div class="brief-body">Vitalik made a strong case for DeFi as a core part of Ethereum's identity and mission. "Financial empowerment is a central part of what it means to have agency and freedom in our current world." 1.69K likes, 362K impressions.</div>
+            <div class="brief-body">"Financial empowerment is a central part of what it means to have agency and freedom in our current world." Vitalik made a direct philosophical case against de-emphasising DeFi — the clearest signal in months that the core team sees financial tooling as Ethereum's bedrock. 1.69K likes, 362K impressions.</div>
             <div class="brief-src">@vitalikbuterin · 1.69K ❤ · 362K impressions · Feb 24</div>
-        </div>
-
-        <div class="brief">
-            <span class="brief-cat web3">Web3</span>
-            <div class="brief-hed">Anthropic Holds Red Lines on Autonomous Weapons, Mass Surveillance</div>
-            <div class="brief-body">Vitalik endorsed Anthropic's stance of maintaining two hard limits — no fully autonomous weapons and no mass surveillance of Americans — and said their credibility depended on not backing down under government pressure. 3.1K likes, 336K impressions.</div>
-            <div class="brief-src">@vitalikbuterin · 3.1K ❤ · 336K impressions · Feb 24</div>
         </div>
 
         <div class="numbers">
