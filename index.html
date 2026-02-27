@@ -123,15 +123,20 @@
             height: 100%; display: flex; align-items: center;
             flex-shrink: 0; border-right: 2px solid rgba(255,255,255,0.3);
         }
-        .breaking-scroll { overflow: hidden; flex: 1; height: 100%; }
+        .breaking-scroll { overflow: hidden; flex: 1; height: 100%; position: relative; }
         .breaking-inner {
             display: inline-flex; align-items: center; height: 100%;
             white-space: nowrap;
-            animation: scroll-left 40s linear infinite;
+            animation: breaking-scroll 55s linear infinite;
+            padding-left: 100%;
+        }
+        @keyframes breaking-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
         }
         .breaking-inner:hover { animation-play-state: paused; }
-        .breaking-item { padding: 0 28px; letter-spacing: 0.3px; }
-        .breaking-dot { opacity: 0.5; }
+        .breaking-item { padding: 0 30px; letter-spacing: 0.3px; }
+        .breaking-dot { opacity: 0.4; padding: 0 4px; }
 
         /* ─── 3-COL GRID ─── */
         .cols {
@@ -540,31 +545,21 @@
     <div class="breaking-label">Breaking</div>
     <div class="breaking-scroll">
         <div class="breaking-inner">
-            <span class="breaking-item">Sam Altman meets PM Modi — "India is our fastest growing market for Codex globally"</span>
+            <span class="breaking-item">Sam Altman meets PM Modi — India is OpenAI's fastest growing Codex market</span>
             <span class="breaking-dot">·</span>
-            <span class="breaking-item">ETH Denver BUIDLathon wraps — 750+ builders, 186 projects, 10 track winners</span>
+            <span class="breaking-item">ETH Denver BUIDLathon wraps — 750+ builders, 186 projects, 10 winners</span>
             <span class="breaking-dot">·</span>
-            <span class="breaking-item">Karpathy: AI coding agents "basically didn't work before December" — 34.6K ❤</span>
+            <span class="breaking-item">Karpathy: AI coding agents went from broken to essential in one month</span>
             <span class="breaking-dot">·</span>
-            <span class="breaking-item">Replit Agent now uses Gemini 3.1 Pro for SVG animations</span>
+            <span class="breaking-item">Replit Agent upgrades to Gemini 3.1 Pro for animation generation</span>
             <span class="breaking-dot">·</span>
-            <span class="breaking-item">Vitalik drops Ethereum quantum-resistance roadmap</span>
+            <span class="breaking-item">Vitalik releases Ethereum quantum-resistance roadmap</span>
             <span class="breaking-dot">·</span>
-            <span class="breaking-item">Base Batches #003 now live on Devfolio — Startup, Student, Robotics tracks</span>
+            <span class="breaking-item">Base Batches #003 open — Startup, Student, Robotics tracks on Devfolio</span>
             <span class="breaking-dot">·</span>
-            <!-- repeat for loop -->
-            <span class="breaking-item">Sam Altman meets PM Modi — "India is our fastest growing market for Codex globally"</span>
+            <span class="breaking-item">Polymarket now live as mini app inside the Base App</span>
             <span class="breaking-dot">·</span>
-            <span class="breaking-item">ETH Denver BUIDLathon wraps — 750+ builders, 186 projects, 10 track winners</span>
-            <span class="breaking-dot">·</span>
-            <span class="breaking-item">Karpathy: AI coding agents "basically didn't work before December" — 34.6K ❤</span>
-            <span class="breaking-dot">·</span>
-            <span class="breaking-item">Replit Agent now uses Gemini 3.1 Pro for SVG animations</span>
-            <span class="breaking-dot">·</span>
-            <span class="breaking-item">Vitalik drops Ethereum quantum-resistance roadmap</span>
-            <span class="breaking-dot">·</span>
-            <span class="breaking-item">Base Batches #003 now live on Devfolio — Startup, Student, Robotics tracks</span>
-            <span class="breaking-dot">·</span>
+            <span class="breaking-item">Vitalik: DeFi is central to Ethereum's value, not peripheral</span>
         </div>
     </div>
 </div>
@@ -579,51 +574,44 @@
 
         <div class="brief">
             <span class="brief-cat ai">AI</span>
-            <div class="brief-hed">Sam Altman Meets PM Modi: "India Is OpenAI's Fastest Growing Market for Codex"</div>
-            <div class="brief-body">Sam Altman met Prime Minister Modi this week, calling India OpenAI's fastest growing global market for Codex. The tweet — "Great meeting with PM Modi today to talk about the incredible energy around AI in India" — drew 28K likes and 4.71M impressions, the most-viral AI tweet of the week.</div>
-            <div class="brief-src">@sama · 28K ❤ · 4.71M impressions · Feb 26</div>
+            <div class="brief-hed">OpenAI × India: The World's Largest Democracy Becomes Its Fastest-Growing AI Market</div>
+            <div class="brief-body">Sam Altman's meeting with PM Modi wasn't a diplomatic formality. OpenAI confirmed India is now its fastest-growing market for Codex globally — the AI pair-programming product developers actually use in production. That's not aspiration, that's traction. India has the engineers, the startup density, and the cost environment to become AI's most important non-US market within 3 years.</div>
+            <div class="brief-src" style="font-style:italic;color:var(--red);font-family:inherit;font-size:10px;margin-top:4px;">What it means → If you're building AI dev tools for India, your TAM just got a formal stamp of approval from the CEO of OpenAI.</div>
         </div>
 
         <div class="brief">
             <span class="brief-cat ai">AI</span>
-            <div class="brief-hed">Karpathy: Coding Agents "Basically Didn't Work Before December"</div>
-            <div class="brief-body">Andrej Karpathy's viral observation — that AI coding changed not gradually but in a sudden leap last December — resonated across tech Twitter. "Not gradually and over time in the 'progress as usual' way, but specifically this last December." 34.5K likes, 4.38M impressions.</div>
-            <div class="brief-src">@karpathy · 34.5K ❤ · 4.38M impressions · Feb 25</div>
+            <div class="brief-hed">The December Inflection: AI Coding Didn't Improve — It Crossed a Threshold</div>
+            <div class="brief-body">Karpathy's observation deserves careful reading. He's not saying AI coding got better — it's been getting better for years. He's saying something specific crossed a qualitative threshold in December 2025. Coding agents went from being useful assistants to being genuine collaborators capable of completing entire tasks without human intervention. That distinction matters for how you architect your team, your product, and your hiring plan.</div>
+            <div class="brief-src" style="font-style:italic;color:var(--red);font-family:inherit;font-size:10px;margin-top:4px;">What it means → Teams that haven't restructured around AI-assisted development since January are already operating at a structural disadvantage.</div>
         </div>
 
         <div class="brief">
             <span class="brief-cat ai">AI</span>
-            <div class="brief-hed">Karpathy: CLIs Are the Perfect Interface for AI Agents</div>
-            <div class="brief-body">"CLIs are super exciting precisely because they are a 'legacy' technology, which means AI agents can natively and easily use them, combine them, interact with them." Old-school command-line tools are paradoxically the best fit for the AI agent era. 11.5K likes, 1.93M impressions.</div>
-            <div class="brief-src">@karpathy · 11.5K ❤ · 1.93M impressions · Feb 25</div>
+            <div class="brief-hed">The CLI Renaissance: Old Interfaces Are the New AI Native</div>
+            <div class="brief-body">The insight is counterintuitive: the most modern AI agents are most comfortable in the most legacy environments. Command-line tools have consistent, well-documented, text-based interfaces — exactly what LLMs are good at parsing and generating. GUIs were designed for humans who struggle with text. CLIs were always designed for programmatic use. AI just made that obvious.</div>
+            <div class="brief-src" style="font-style:italic;color:var(--red);font-family:inherit;font-size:10px;margin-top:4px;">What it means → Building a developer tool? Ship a great CLI first. AI agents will use it before your human users even read the docs.</div>
         </div>
 
         <div class="brief">
             <span class="brief-cat ai">AI</span>
-            <div class="brief-hed">Replit Agent Upgrades to Gemini 3.1 Pro for SVG Animations</div>
-            <div class="brief-body">Replit shipped a notable upgrade: its Agent now uses Gemini 3.1 Pro for SVG animations, which the model excels at. Builders immediately noticed the quality jump — "just imagination → animation." Makes Replit's creative tooling a serious contender for visual prototyping.</div>
-            <div class="brief-src">@Replit · 290 ❤ · Feb 26</div>
-        </div>
-
-        <div class="brief">
-            <span class="brief-cat ai">AI</span>
-            <div class="brief-hed">The Coming Token Demand Tsunami: Memory and Compute Rethink</div>
-            <div class="brief-body">Karpathy laid out why the coming LLM token demand surge demands a fundamental rethink of memory+compute. "Due to chip fabrication, you get two completely distinct pools" — pointing to a major infrastructure gap that startups are now racing to fill. 7.3K likes, 2.43M impressions.</div>
-            <div class="brief-src">@karpathy · 7.3K ❤ · 2.43M impressions · Feb 25</div>
+            <div class="brief-hed">Replit's Animation Upgrade Is a Signal About Model Specialisation</div>
+            <div class="brief-body">Replit quietly switched its animation generation to Gemini 3.1 Pro — not because it's generally better, but because it's specifically better at SVG. This is what model specialisation looks like in production: routing specific tasks to models with domain-specific strengths. The era of one model for everything is over. The era of orchestrating the right model for the right subtask has begun.</div>
+            <div class="brief-src" style="font-style:italic;color:var(--red);font-family:inherit;font-size:10px;margin-top:4px;">What it means → If you're building AI products, you need a model routing layer, not just a model selection.</div>
         </div>
 
         <div class="brief">
             <span class="brief-cat web3">Web3</span>
-            <div class="brief-hed">Vitalik Drops Ethereum Quantum-Resistance Roadmap</div>
-            <div class="brief-body">Vitalik laid out Ethereum's four quantum-vulnerable components — BLS signatures, KZG commitments, ECDSA EOA signatures, and ZK proofs — with a sequential plan to address each. Opens a wide new category of infra work for builders. 4.5K likes, 551K impressions.</div>
-            <div class="brief-src">@vitalikbuterin · 4.5K ❤ · 551K impressions · Feb 26</div>
+            <div class="brief-hed">Ethereum's Quantum Clock Is Ticking — Vitalik Is Already Running the Countdown</div>
+            <div class="brief-body">Quantum computers that can break ECDSA aren't here yet. But Vitalik's roadmap post this week signals that the Ethereum core team is treating it as an engineering problem with a known timeline, not a theoretical future risk. Four vulnerable components, a sequential remediation plan, and a community expectation that the migration will happen in phases. The infrastructure builders who start now will define the post-quantum Ethereum stack.</div>
+            <div class="brief-src" style="font-style:italic;color:var(--red);font-family:inherit;font-size:10px;margin-top:4px;">What it means → Post-quantum wallet infrastructure and ZK-circuit abstraction layers are early-mover categories with almost no competition today.</div>
         </div>
 
         <div class="brief">
             <span class="brief-cat web3">Web3</span>
-            <div class="brief-hed">Vitalik: "DeFi Is Central to Ethereum's Value"</div>
-            <div class="brief-body">"Financial empowerment is a central part of what it means to have agency and freedom in our current world." Vitalik made a direct philosophical case against de-emphasising DeFi — the clearest signal in months that the core team sees financial tooling as Ethereum's bedrock. 1.69K likes, 362K impressions.</div>
-            <div class="brief-src">@vitalikbuterin · 1.69K ❤ · 362K impressions · Feb 24</div>
+            <div class="brief-hed">Polymarket Joins the Base App — What Mini Apps Reveal About Consumer Crypto</div>
+            <div class="brief-body">Polymarket's integration as a mini app inside the Base App is meaningful beyond the partnership. It confirms that prediction markets — not DeFi, not NFTs — are the consumer crypto primitive that actually drives repeat usage. People come back to bet on outcomes. The Base App's mini app architecture is becoming a serious distribution channel, not just an experiment.</div>
+            <div class="brief-src" style="font-style:italic;color:var(--red);font-family:inherit;font-size:10px;margin-top:4px;">What it means → The Base App is becoming a consumer platform. If you're building something people use daily, this is now a real distribution target.</div>
         </div>
 
         <div class="numbers">
@@ -641,21 +629,21 @@
             <div class="sec-label">Quick Takes</div>
             <div class="brief" style="padding-bottom:10px;">
                 <span class="brief-cat ai">AI</span>
-                <div class="brief-hed">Mac Mini Selling Like Hotcakes for AI Tinkering</div>
-                <div class="brief-body">Karpathy bought a new Mac mini to tinker with AI "claws" over the weekend — noting the Apple Store told him "everyone is coming in for the same reason." Signal: consumer hardware is now serious AI dev hardware. 17.3K ❤ · 3.26M impressions.</div>
-                <div class="brief-src">@karpathy · 17.3K ❤ · 3.26M imp · Feb 26</div>
+                <div class="brief-hed">Consumer Hardware Is Now Serious AI Dev Hardware</div>
+                <div class="brief-body">When Karpathy buys a Mac mini specifically to run AI experiments over the weekend, and the Apple Store tells him "everyone is coming in for the same reason," that's a market signal. The GPU cluster is no longer the only game in town. Edge inference is real, today, on hardware most developers already own.</div>
+                <div class="brief-src" style="font-style:italic;color:var(--red);font-family:inherit;font-size:10px;margin-top:3px;">What it means → Local-first AI products just became viable at the consumer level.</div>
             </div>
             <div class="brief" style="padding-bottom:10px;">
                 <span class="brief-cat ai">AI</span>
-                <div class="brief-hed">OpenAI: Non-Technical People Can Contribute to AGI via Research Recruiting</div>
-                <div class="brief-body">Sam Altman highlighted research recruiting as an underrated non-technical path into AGI. Former founders especially. The post drew 4.7K likes — and sparked a wave of outreach to OpenAI's recruiting team.</div>
-                <div class="brief-src">@sama · 4.7K ❤ · 635K imp · Feb 26</div>
+                <div class="brief-hed">AGI Needs Non-Technical Talent — and the Window Is Now</div>
+                <div class="brief-body">Sam Altman's call for research recruiters isn't charity toward non-coders. The models that get built next are constrained by the quality of human judgment that shapes them. Research recruiting, policy, and operations roles at AI labs are among the highest-leverage non-technical positions in the world right now — and they're chronically understaffed.</div>
+                <div class="brief-src" style="font-style:italic;color:var(--red);font-family:inherit;font-size:10px;margin-top:3px;">What it means → If you're non-technical and want in on AI, this is a legitimate path — not a consolation prize.</div>
             </div>
             <div class="brief" style="padding-bottom:10px; border-bottom:none;">
                 <span class="brief-cat web3">Web3</span>
-                <div class="brief-hed">Vitalik: Open-Source Permissionless Ecosystem Must Stay Strong</div>
-                <div class="brief-body">"Our job should be to make the open-source, permissionless, trustless, secure, censorship-resistant ecosystem strong" — Vitalik, responding to concerns about centralised layers building on top of Ethereum. The guardrails statement. 936 ❤ · 172K impressions.</div>
-                <div class="brief-src">@vitalikbuterin · 936 ❤ · 172K imp · Feb 24</div>
+                <div class="brief-hed">Vitalik Draws a Line: Open-Source or Nothing</div>
+                <div class="brief-body">As centralised layers continue to build on top of Ethereum — custodial wallets, permissioned RPC endpoints, KYC'd frontends — Vitalik issued a clear philosophical reminder: the base layer's job is to make the open, trustless, censorship-resistant alternative strong. Not to compete with the centralised version, but to make sure the decentralised one is always viable.</div>
+                <div class="brief-src" style="font-style:italic;color:var(--red);font-family:inherit;font-size:10px;margin-top:3px;">What it means → If your product only works with a centralised dependency, it's not actually onchain — it's just using a blockchain as a database.</div>
             </div>
         </div>
     </div>
@@ -718,6 +706,38 @@
 
             <p>Meanwhile, the Devcon Community Roundtable kicked off its inquiry into the India story for Ethereum — a question that feels especially timely given Devfolio's own position as the dominant hackathon platform for India's builder community. What is India's Ethereum story? We'll have more on this as the roundtable progresses.</p>
         </div>
+
+        <!-- SECOND STORY -->
+        <div style="border-top: 2px solid var(--ink); margin-top: 20px; padding-top: 18px;">
+            <div class="edition-flag" style="color:var(--ink); border-color:var(--ink);">Analysis · Builder Economy</div>
+
+            <h2 class="main-hed" style="font-size:1.55rem;">
+                Why Base Batches #003 Matters More Than Any Previous Cohort
+            </h2>
+            <p class="main-deck">The accelerator market is crowded. But Base Batches has something most don't: a live L2 with real users, real fees, and a team that codes.</p>
+
+            <div class="byline-row">
+                <span class="byline-name">Devfolio Times Analysis</span>
+                <span class="byline-date">February 27, 2026</span>
+            </div>
+
+            <div class="story-body">
+                <p>The accelerator game in web3 has a credibility problem. Too many programs offer mentorship from people who haven't shipped in years, capital from funds with misaligned incentives, and "exposure" that amounts to a tweet from a logo-heavy slide deck. Base Batches is different in one specific, verifiable way: the ecosystem it's plugging you into is actually working.</p>
+
+                <p>This week, Base Batches #003 opened applications on Devfolio for three distinct tracks — Startup, Student, and Robotics. Fifteen teams will be selected. The cohort gets direct access to Coinbase's ecosystem capital, mentorship from builders who are actively shipping, and a SF Demo Day with real investors in the room. That's a well-structured program. But the programme itself isn't what makes the timing interesting.</p>
+
+                <div class="pull-quote">
+                    <blockquote>"If you're serious about growing your onchain product, Base Batches is your best bet."</blockquote>
+                    <cite>— Base Batches 002 participant, on applying to 003</cite>
+                </div>
+
+                <p>What makes it interesting is context. Polymarket just integrated as a mini app inside the Base App — meaning Base now has a consumer interface that real, non-crypto users are opening. AI agents are moving onchain at scale. The Devcon India Roundtable is starting to crystallise what a billion-person market for Ethereum infrastructure actually looks like. Being inside the Base ecosystem at this specific moment — cohort 003, not cohort 010 — is a different proposition than joining any generic L2 accelerator.</p>
+
+                <p>The Robotics track is worth watching specifically. It's a signal that Base and Coinbase see physical-world verification — proof of work, not the mining kind — as a real near-term use case. Smart contracts that accept onchain confirmation of physical tasks (delivery, manufacturing QC, sensor readings) are a primitive that doesn't exist cleanly yet. The team selected for that track will likely define the category.</p>
+
+                <p>Applications are open now on Devfolio. The deadline pressure is real. A Batches 002 winner is running live office hours for applicants. If you're building something onchain and don't have a reason not to apply — apply.</p>
+            </div>
+        </div>
     </div>
 
     <!-- RIGHT: Spotlights + Devfolio news -->
@@ -732,13 +752,13 @@
             </div>
             <div class="hack-spot-body">
                 <div class="hack-name">Base Batches #003</div>
-                <div class="hack-meta">Now Open · 8 Weeks · Remote + SF · 15 Teams Selected</div>
-                <div class="hack-desc">Base's elite accelerator is back for a third cohort. Three tracks — Startup, Student, and Robotics — with direct access to Coinbase ecosystem capital, top mentors, and global exposure.</div>
+                <div class="hack-meta">Applications Open · 8 Weeks · Remote + SF Demo Day · 15 Teams</div>
+                <div class="hack-desc">The third cohort of Base's elite accelerator is live on Devfolio. Three tracks built for different builders: <strong>Startup</strong> (onchain products with traction), <strong>Student</strong> (university teams building seriously), and <strong>Robotics</strong> (physical-world × blockchain). Winners get ecosystem fund access, mentorship from active builders, and a SF Demo Day with real investors. Batches 002 winners are already running office hours for applicants.</div>
                 <div class="hack-tags">
                     <span class="hack-tag">Startup</span>
                     <span class="hack-tag">Student</span>
                     <span class="hack-tag">Robotics</span>
-                    <span class="hack-tag">Onchain</span>
+                    <span class="hack-tag">SF Demo Day</span>
                 </div>
                 <a href="https://devfolio.co" class="hack-cta" target="_blank">Apply on Devfolio →</a>
             </div>
