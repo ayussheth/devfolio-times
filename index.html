@@ -273,32 +273,28 @@
 
         /* ─── RIGHT COLUMN ─── */
 
-        /* Mini spotlight cards */
-        .mini-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-        .mini-card {
-            border: 1px solid var(--ink);
-            padding: 8px 7px; text-align: center; background: #fafafa;
-        }
-        .mini-card-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 7.5px; font-weight: 700;
-            letter-spacing: 1.5px; text-transform: uppercase;
-            color: var(--muted);
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 4px; margin-bottom: 6px;
+        /* Compact spotlight strips */
+        .spotlight-strip { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
+        .spotlight-strip:last-child { border-bottom: none; margin-bottom: 0; }
+        .spotlight-hacker {
+            display: flex; gap: 9px; align-items: flex-start;
         }
         .hacker-avatar {
-            width: 36px; height: 36px; border-radius: 50%;
-            background: #e8e8e8; border: 2px solid var(--ink);
-            margin: 0 auto 5px;
+            width: 42px; height: 42px; border-radius: 50%;
+            background: #e8e8e8; border: 1.5px solid var(--ink);
+            flex-shrink: 0;
             display: flex; align-items: center; justify-content: center;
-            font-size: 16px; overflow: hidden;
+            font-size: 18px; overflow: hidden;
         }
         .hacker-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .mini-name { font-family: 'Playfair Display', serif; font-size: 10px; font-weight: 700; margin-bottom: 2px; }
-        .mini-text { font-size: 8.5px; line-height: 1.3; color: #444; }
-        .stat-big { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; line-height: 1; margin-bottom: 2px; }
-        .stat-lbl { font-family: 'Space Mono', monospace; font-size: 7px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+        .hacker-info { flex: 1; }
+        .hacker-name { font-family: 'Playfair Display', serif; font-size: 11.5px; font-weight: 700; margin-bottom: 2px; }
+        .hacker-bio { font-size: 10px; line-height: 1.35; color: #444; }
+        .stat-strip { display: flex; align-items: baseline; gap: 8px; }
+        .stat-big { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; line-height: 1; }
+        .stat-lbl { font-size: 11px; color: #444; line-height: 1.3; }
+        .quote-strip { font-size: 11px; font-style: italic; line-height: 1.4; color: #333; }
+        .quote-strip cite { font-style: normal; font-family: 'Space Mono', monospace; font-size: 8.5px; color: var(--muted); display: block; margin-top: 3px; }
 
         /* Subscribe */
         .sub-box { border: 1px solid var(--ink); padding: 12px; margin-bottom: 12px; text-align: center; }
@@ -630,25 +626,33 @@
     <!-- RIGHT: Spotlights + Devfolio news -->
     <div class="col-r">
 
-        <!-- 3 mini spotlight cards -->
+        <!-- Compact spotlights -->
         <div class="sec-label">Spotlights</div>
-        <div class="mini-grid">
-            <div class="mini-card">
-                <div class="mini-card-label">Hacker Spotlight</div>
+
+        <div class="spotlight-strip">
+            <div style="font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;">Hacker Spotlight</div>
+            <div class="spotlight-hacker">
                 <div class="hacker-avatar">👤</div>
-                <div class="mini-name">[Name]</div>
-                <div class="mini-text">[What they built, where they're from, what makes them stand out.]</div>
+                <div class="hacker-info">
+                    <div class="hacker-name">[Name]</div>
+                    <div class="hacker-bio">[What they built, where they're from, and what makes them stand out this week.]</div>
+                </div>
             </div>
-            <div class="mini-card">
-                <div class="mini-card-label">Stat of Week</div>
+        </div>
+
+        <div class="spotlight-strip">
+            <div style="font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;">Stat of the Week</div>
+            <div class="stat-strip">
                 <div class="stat-big">186</div>
-                <div class="stat-lbl">Projects at ETH Denver</div>
-                <div class="mini-text" style="margin-top:5px;">Submitted across all tracks at BUIDLathon 2026.</div>
+                <div class="stat-lbl">projects shipped at ETH Denver BUIDLathon 2026 — across all tracks.</div>
             </div>
-            <div class="mini-card">
-                <div class="mini-card-label">Builder Quote</div>
-                <div class="mini-text" style="font-style:italic;margin-bottom:4px;">"Every hackathon team after OpenClaw."</div>
-                <div class="mini-name" style="font-size:8px;color:var(--muted);">— @devfolio · 98 ❤</div>
+        </div>
+
+        <div class="spotlight-strip">
+            <div style="font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;">Builder Quote</div>
+            <div class="quote-strip">
+                "Every hackathon team after OpenClaw."
+                <cite>— @devfolio · 98 ❤ · 2.5K impressions</cite>
             </div>
         </div>
 
